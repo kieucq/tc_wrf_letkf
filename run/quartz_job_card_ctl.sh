@@ -1,0 +1,1 @@
+../script/quartz_job_card_ctl.sh

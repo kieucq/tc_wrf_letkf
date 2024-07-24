@@ -1,0 +1,30 @@
+#
+# Linux PGI compiler
+#
+#MAKE=make -i -f Makefile
+#FC=pgf90
+#MPIF90=mpif90 -f90=$(FC)
+#FCFLAGS= -traceback
+#RM=rm -f
+#NETCDF=/state/partition1/home/kieuc/opt/netcdf-4.0-pgi
+#
+# Linux ifort compiler
+#
+MAKE=make -i -f Makefile
+FC=ifort
+#MPIF90=mpif90 -f90=$(FC)
+MPIF90=mpif90
+FCFLAGS= -traceback 
+RM=rm -f
+NETCDF=/N/u/ckieu/Quartz/local/libs/netcdf-4.0-intel
+#
+#
+# Linux gfortran compiler
+#
+#MAKE=make -i -f Makefile
+#FC=gfortran
+#FCFLAGS= -fno-range-check
+#RM=rm -f
+#NETCDF=/opt/netcdf-4.0-gfortran
+
+

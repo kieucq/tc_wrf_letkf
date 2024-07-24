@@ -1,0 +1,87 @@
+ DIG: Running year is: 2010
+ DIG: Running month is: 07
+ DIG: Running day is: 12
+ DIG: Running hour is: 00
+ DIG: Forecast minute is: 4320
+ DIG: Starting time is: 2010-07-12_00:00:00
+ DIG: Ending time is: 2010-07-15_00:00:00
+ DIG: Start looping now ...
+ How many files?
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            5
+ tncid     =            4
+ gncid     =            6
+ 
+ 2. NF_INQ returns values: 
+ cncid      =            5
+ ndims      =           10
+ nvars      =          156
+ ngatts     =           76
+ unlimdimid =            1
+ Checking var is: T
+ 
+ 3. Pull out information about: T
+ tid        =           19
+ tndim      =            4
+ Dimension name is:            1            3 west_east           
+ Dimension name is:            2            4 south_north         
+ Dimension name is:            3            5 bottom_top          
+ Dimension name is:            4            1 Time                
+ nx         =           80
+ ny         =           80
+ nz         =           30
+ nt         =            1
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            5
+ tncid     =            4
+ gncid     =            6
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            5
+ tncid     =            4
+ gncid     =            6
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            4
+ tncid     =            4
+ gncid     =            5
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            4
+ tncid     =            4
+ gncid     =            5
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            4
+ tncid     =            4
+ gncid     =            5
+ 
+ 1. NF_OPEN and return value: 
+ status    =            0
+ nf_noerr  =            0
+ ancid     =            3
+ cncid     =            4
+ tncid     =            4
+ gncid     =            5
+                                     
+ DIG script finished normally       

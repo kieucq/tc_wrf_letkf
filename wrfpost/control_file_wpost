@@ -1,0 +1,97 @@
+-1                  ! negative means ignore the times
+2007-07-16_00:00:00
+end_of_time_list
+U                   ! U Compoment of wind
+V                   ! V Component of wind
+THETA               ! Theta
+TC                  ! Temperature in C
+Z                   ! Height (m)
+RH                  ! Relative Humidity (diagnostic)
+end_of_3dvar_list
+slvl                ! sea level pressure
+RAINC               ! ACCUMULATED TOTAL CUMULUS PRECIPITATION
+RAINCV              ! TIME-STEP CUMULUS PRECIPITATION
+RAINNC              ! ACCUMULATED TOTAL GRID SCALE PRECIPITATION
+T2                  ! TEMP at 2 M
+end_of_2dvar_list
+wrfout_d01_2021-08-26_12:00:00
+wrfout_d01_2021-08-26_18:00:00
+wrfout_d01_2021-08-27_00:00:00
+wrfout_d01_2021-08-27_06:00:00
+wrfout_d01_2021-08-27_12:00:00
+wrfout_d01_2021-08-27_18:00:00
+wrfout_d01_2021-08-28_00:00:00
+wrfout_d01_2021-08-28_06:00:00
+wrfout_d01_2021-08-28_12:00:00
+wrfout_d01_2021-08-28_18:00:00
+wrfout_d01_2021-08-29_00:00:00
+wrfout_d01_2021-08-29_06:00:00
+wrfout_d01_2021-08-29_12:00:00
+wrfout_d01_2021-08-29_18:00:00
+wrfout_d01_2021-08-30_00:00:00
+wrfout_d01_2021-08-30_06:00:00
+wrfout_d01_2021-08-30_12:00:00
+wrfout_d01_2021-08-30_18:00:00
+wrfout_d01_2021-08-31_00:00:00
+wrfout_d01_2021-08-31_06:00:00
+wrfout_d01_2021-08-31_12:00:00
+wrfout_d02_2021-08-26_12:00:00
+wrfout_d02_2021-08-26_18:00:00
+wrfout_d02_2021-08-27_00:00:00
+wrfout_d02_2021-08-27_06:00:00
+wrfout_d02_2021-08-27_12:00:00
+wrfout_d02_2021-08-27_18:00:00
+wrfout_d02_2021-08-28_00:00:00
+wrfout_d02_2021-08-28_06:00:00
+wrfout_d02_2021-08-28_12:00:00
+wrfout_d02_2021-08-28_18:00:00
+wrfout_d02_2021-08-29_00:00:00
+wrfout_d02_2021-08-29_06:00:00
+wrfout_d02_2021-08-29_12:00:00
+wrfout_d02_2021-08-29_18:00:00
+wrfout_d02_2021-08-30_00:00:00
+wrfout_d02_2021-08-30_06:00:00
+wrfout_d02_2021-08-30_12:00:00
+wrfout_d02_2021-08-30_18:00:00
+wrfout_d02_2021-08-31_00:00:00
+wrfout_d02_2021-08-31_06:00:00
+wrfout_d02_2021-08-31_12:00:00
+wrfout_d03_2021-08-26_12:00:00
+wrfout_d03_2021-08-26_18:00:00
+wrfout_d03_2021-08-27_00:00:00
+wrfout_d03_2021-08-27_06:00:00
+wrfout_d03_2021-08-27_12:00:00
+wrfout_d03_2021-08-27_18:00:00
+wrfout_d03_2021-08-28_00:00:00
+wrfout_d03_2021-08-28_06:00:00
+wrfout_d03_2021-08-28_12:00:00
+wrfout_d03_2021-08-28_18:00:00
+wrfout_d03_2021-08-29_00:00:00
+wrfout_d03_2021-08-29_06:00:00
+wrfout_d03_2021-08-29_12:00:00
+wrfout_d03_2021-08-29_18:00:00
+wrfout_d03_2021-08-30_00:00:00
+wrfout_d03_2021-08-30_06:00:00
+wrfout_d03_2021-08-30_12:00:00
+wrfout_d03_2021-08-30_18:00:00
+wrfout_d03_2021-08-31_00:00:00
+wrfout_d03_2021-08-31_06:00:00
+wrfout_d03_2021-08-31_12:00:00
+end_of_file_list
+                    ! required blank
+real                ! real (input/output)/ideal/static
+1                   ! 0=no map bgd, 1=map bgd 
+1                   ! specify grads vertical grid  
+1000
+990
+950
+900
+800
+700
+600
+500
+400
+300
+200
+100
+50

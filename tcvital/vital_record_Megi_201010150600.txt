@@ -1,0 +1,6 @@
+name="Megi"                 # name
+cycle="201010150600"        # cycle to begin
+clat="14.9"                 # center lat
+clon="136.6"                # center lon 
+stormid="15"                # ID of storm
+stormbasin="WP"             # storm basin (WP/AL/EP)

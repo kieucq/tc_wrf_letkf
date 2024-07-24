@@ -1,0 +1,6 @@
+name="Chaba"                # name
+time="201010261200"         # cycle to begin
+clat="20.2"                 # center lat
+clon="128.2"                # center lon
+stormid="16"                # ID of storm
+stormbasin="WP"             # storm basin (WP/AL/EP)

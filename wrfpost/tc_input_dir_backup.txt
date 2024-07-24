@@ -1,0 +1,10 @@
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_001
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_002
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_003
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_004
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_005
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_006
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_007
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_008
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_009
+/home/chanhkq/da_wrf_letkf/fsc/201007121200/mem_010

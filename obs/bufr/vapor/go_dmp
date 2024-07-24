@@ -1,0 +1,95 @@
+#!/bin/ksh
+# go_dmp.ksh
+# trigger for dmpbfr.x (routine to read bufr files)
+#
+# 27 May 2004 - orig+
+#  7 Mar 2005 - enabled gzipped source files
+# 23 Mar 2005 - generalized tmp dir w/ USER var
+# 19 May 2005 - generalized TDIR w/ pid ($$); rm'd TDIR
+# 28 Feb 2007 - ported to mist/dew
+# 23 Apr 2007 - fixed bug in mkdir TDIR (added -p)
+#  8 Jun 2007 - enabled external BUFR table designation
+# 27 Oct 2008 - added exit statement when bfile missing;
+#               corrected btab check (bfile -> btab)
+#
+usage='go_dmp <BUFR file to read> [external BUFR table]'
+lab='go_dmp'
+
+bfile=${1:?"$usage"}
+btab=${2}
+
+TDIR=/state/partition1/home/kieuc/da_wrf_letkf/obs/bufr/src/go_dmp.$$
+[ -d $TDIR ] || mkdir -p $TDIR || { echo "error mkdir $TDIR - exiting" ; exit ; }
+
+if [ ! -s $bfile ] ; then 
+  echo "$lab: bfile='$bfile' not found - exiting" ; exit
+else
+
+  tfile=''
+  if [ .`echo $bfile | egrep 'gz$'` != . ] ; then
+    zfile=$TDIR/`basename $bfile`
+    cp -p $bfile $zfile
+    gzip -d $zfile
+    tfile=`echo $zfile | sed 's/.gz//'`
+    bfile=$tfile
+  fi # file zipped
+fi # bfile found
+
+if [ -n "$btab" ] ; then 
+  if [ ! -s $btab ] ; then 
+    echo "$lab: btab='$btab' not found - exiting" ; exit
+  else
+
+    tfile=''
+    if [ .`echo $btab | egrep 'gz$'` != . ] ; then
+      zfile=$TDIR/`basename $btab`
+      cp -p $btab $zfile
+      gzip -d $zfile
+      tfile=`echo $zfile | sed 's/.gz//'`
+      btab=$tfile
+    fi # file zipped
+  fi # btab found
+fi # btab specified
+
+
+# dmplst='/nfsuser/g01/wx22dk/fix.jifs/bufr_dumplist'
+# dmplst='/nwprod/fix/bufr_dumplist'
+# dmplst='/u/wx20wh/doc/bd'
+  dmplst='/global/save/wx22gk/useful_misc/dmp/bd'
+
+  tank=`basename $bfile`
+  case "`echo $tank | cut -c1-2" in
+    xx) #mtst=`echo $bfile | cut -d/ -f5- | sed 's=/xx==;s/b//'`
+        mtst=`echo $bfile | awk '{print substr($0,index($0,"/b0")+1,10)}' \
+              | sed 's=/xx==;s/b//'`
+        mtst=`egrep "$mtst  #" $dmplst | cut -c2-9` ;;
+     *) mtst=$tank ;;
+  esac
+
+  echo "$lab:  $bfile  $mtst"
+
+  export XLFRTEOPTS="unit_vars=yes"
+  export XLFUNITS=0
+  export XLFUNIT_11="$bfile"
+
+
+if [ -z "$btab" ] ; then
+# /nfsuser/g01/wx20wh/util/dmpbfr/dmpbfr.x
+#  /u/wx20wh/nf/util/dmpbfr/dmpbfr.x
+  /state/partition1/home/kieuc/da_wrf_letkf/obs/bufr/src/dmpbfr.exe
+  dmprc=$?
+
+else
+  export XLFUNIT_12="$btab"
+#  /u/wx20wh/nf/util/dmpbfr/dmpbfr_x.x
+  /state/partition1/home/kieuc/da_wrf_letkf/obs/bufr/src/dmpbfr.exe
+  dmprc=$?
+
+fi # btab specified
+
+echo "$lab: dmpbfr rc=$dmprc"
+
+# if [ -n "$tfile" ] ; then rm -f $tfile ; fi
+/bin/rm -rf $TDIR
+
+exit

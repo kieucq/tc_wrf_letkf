@@ -1,0 +1,678 @@
++ . ./input.sh
+++ start_time_main=202108271200
+++ BND_INTERVAL=21600
+++ D01_NX=151
+++ D01_NY=151
+++ D01_NZ=31
+++ D01_DX=36000
+++ D01_DY=36000
+++ D01_DT=180
+++ MAXIMUM_DOM=3
+++ DIR_LETKF=/N/slate/ckieu/tc_wrf_letkf/letkf
+++ DIR_RUN=/N/slate/ckieu/tc_wrf_letkf/run
+++ DIR_MAN=/N/slate/ckieu/tc_wrf_letkf
+++ DIR_ANA=/N/slate/ckieu/tc_wrf_letkf/ana
+++ DIR_BGD=/N/slate/ckieu/tc_wrf_letkf/bgd
+++ DIR_FSC=/N/slate/ckieu/tc_wrf_letkf/fsc
+++ DIR_INI=/N/slate/ckieu/tc_wrf_letkf/ini
+++ DIR_OBS=/N/slate/ckieu/tc_wrf_letkf/obs
+++ DIR_OBS_DATA=/N/slate/ckieu/tc_wrf_letkf/data/obs/
+++ DIR_3DV=../model/WRFDA/var/obsproc
+++ runmode=EXP_REAL
+++ RUNMODE=EXP_REAL
+++ RESTART_INTERVAL=43200
+++ OBSMODE=CIMSS
+++ REF_LAT_MAIN=20.4
+++ REF_LON_MAIN=-81.7
+++ ne=21
+++ vort_init=NO
+++ SPINUP=NO
+++ blend_obs=NO
+++ fcst_length=120
++ '[' EXP_REAL == '' ']'
++ '[' /N/slate/ckieu/tc_wrf_letkf/run == '' ']'
++ '[' NO == '' ']'
++ time_input=202108271200
+++ echo 202108271200
+++ cut -c1-4
++ data_year_let=2021
+++ echo 202108271200
+++ cut -c5-6
++ data_month_let=08
+++ echo 202108271200
+++ cut -c7-8
++ data_day_let=27
+++ echo 202108271200
+++ cut -c9-10
++ data_hour_let=12
+++ echo 202108271200
+++ cut -c11-12
++ data_minute_let=00
++ echo ' LETKF: Running year is: 2021'
+ LETKF: Running year is: 2021
++ echo ' LETKF: Running month is: 08'
+ LETKF: Running month is: 08
++ echo ' LETKF: Running day is: 27'
+ LETKF: Running day is: 27
++ echo ' LETKF: Running hour is: 12'
+ LETKF: Running hour is: 12
++ echo ' LETKF: Number of ne is: 21'
+ LETKF: Number of ne is: 21
++ echo ' LETKF: Start looping now ...'
+ LETKF: Start looping now ...
++ nfile=21
++ ifile=1
++ obs_file=obs_2021-08-27_12:00:00
++ bgd_file=2021-08-27_12:00:00
++ vox_file=vox_2021-08-27_12:00:00
++ time_string=202108271200
++ rm -f 'bgd_*.dat' '*~' obs.dat
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/obs/obs_2021-08-27_12:00:00 ']'
++ '[' CIMSS '!=' CONTROL ']'
++ echo ' LETKF: /N/slate/ckieu/tc_wrf_letkf/obs/obs_2021-08-27_12:00:00 exists... linking'
+ LETKF: /N/slate/ckieu/tc_wrf_letkf/obs/obs_2021-08-27_12:00:00 exists... linking
+++ head -n 1 /N/slate/ckieu/tc_wrf_letkf/obs/obs_2021-08-27_12:00:00
+++ awk '{print $1}'
++ no1=18517
++ '[' 18517 == 0 ']'
++ rm -f /N/slate/ckieu/tc_wrf_letkf/run/no_da_flag.txt
++ '[' NO == NO ']'
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/obs/obs_2021-08-27_12:00:00 ./obs.dat
++ '[' 1 -le 21 ']'
++ '[' 1 -lt 10 ']'
++ prefix=001
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_001_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_001_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_001_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_001_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_001_2021-08-27_12:00:00 ./bgd_001.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_001.dat ']'
++ echo ' LETKF: ./ana_001.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_001.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_001.dat
++ ifile=2
++ '[' 2 -le 21 ']'
++ '[' 2 -lt 10 ']'
++ prefix=002
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_002_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_002_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_002_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_002_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_002_2021-08-27_12:00:00 ./bgd_002.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_002.dat ']'
++ echo ' LETKF: ./ana_002.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_002.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_002.dat
++ ifile=3
++ '[' 3 -le 21 ']'
++ '[' 3 -lt 10 ']'
++ prefix=003
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_003_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_003_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_003_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_003_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_003_2021-08-27_12:00:00 ./bgd_003.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_003.dat ']'
++ echo ' LETKF: ./ana_003.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_003.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_003.dat
++ ifile=4
++ '[' 4 -le 21 ']'
++ '[' 4 -lt 10 ']'
++ prefix=004
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_004_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_004_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_004_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_004_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_004_2021-08-27_12:00:00 ./bgd_004.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_004.dat ']'
++ echo ' LETKF: ./ana_004.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_004.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_004.dat
++ ifile=5
++ '[' 5 -le 21 ']'
++ '[' 5 -lt 10 ']'
++ prefix=005
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_005_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_005_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_005_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_005_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_005_2021-08-27_12:00:00 ./bgd_005.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_005.dat ']'
++ echo ' LETKF: ./ana_005.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_005.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_005.dat
++ ifile=6
++ '[' 6 -le 21 ']'
++ '[' 6 -lt 10 ']'
++ prefix=006
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_006_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_006_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_006_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_006_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_006_2021-08-27_12:00:00 ./bgd_006.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_006.dat ']'
++ echo ' LETKF: ./ana_006.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_006.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_006.dat
++ ifile=7
++ '[' 7 -le 21 ']'
++ '[' 7 -lt 10 ']'
++ prefix=007
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_007_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_007_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_007_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_007_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_007_2021-08-27_12:00:00 ./bgd_007.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_007.dat ']'
++ echo ' LETKF: ./ana_007.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_007.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_007.dat
++ ifile=8
++ '[' 8 -le 21 ']'
++ '[' 8 -lt 10 ']'
++ prefix=008
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_008_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_008_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_008_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_008_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_008_2021-08-27_12:00:00 ./bgd_008.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_008.dat ']'
++ echo ' LETKF: ./ana_008.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_008.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_008.dat
++ ifile=9
++ '[' 9 -le 21 ']'
++ '[' 9 -lt 10 ']'
++ prefix=009
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_009_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_009_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_009_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_009_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_009_2021-08-27_12:00:00 ./bgd_009.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_009.dat ']'
++ echo ' LETKF: ./ana_009.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_009.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_009.dat
++ ifile=10
++ '[' 10 -le 21 ']'
++ '[' 10 -lt 10 ']'
++ '[' 10 -lt 100 ']'
++ prefix=010
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_010_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_010_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_010_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_010_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_010_2021-08-27_12:00:00 ./bgd_010.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_010.dat ']'
++ echo ' LETKF: ./ana_010.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_010.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_010.dat
++ ifile=11
++ '[' 11 -le 21 ']'
++ '[' 11 -lt 10 ']'
++ '[' 11 -lt 100 ']'
++ prefix=011
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_011_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_011_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_011_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_011_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_011_2021-08-27_12:00:00 ./bgd_011.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_011.dat ']'
++ echo ' LETKF: ./ana_011.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_011.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_011.dat
++ ifile=12
++ '[' 12 -le 21 ']'
++ '[' 12 -lt 10 ']'
++ '[' 12 -lt 100 ']'
++ prefix=012
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_012_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_012_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_012_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_012_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_012_2021-08-27_12:00:00 ./bgd_012.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_012.dat ']'
++ echo ' LETKF: ./ana_012.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_012.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_012.dat
++ ifile=13
++ '[' 13 -le 21 ']'
++ '[' 13 -lt 10 ']'
++ '[' 13 -lt 100 ']'
++ prefix=013
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_013_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_013_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_013_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_013_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_013_2021-08-27_12:00:00 ./bgd_013.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_013.dat ']'
++ echo ' LETKF: ./ana_013.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_013.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_013.dat
++ ifile=14
++ '[' 14 -le 21 ']'
++ '[' 14 -lt 10 ']'
++ '[' 14 -lt 100 ']'
++ prefix=014
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_014_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_014_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_014_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_014_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_014_2021-08-27_12:00:00 ./bgd_014.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_014.dat ']'
++ echo ' LETKF: ./ana_014.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_014.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_014.dat
++ ifile=15
++ '[' 15 -le 21 ']'
++ '[' 15 -lt 10 ']'
++ '[' 15 -lt 100 ']'
++ prefix=015
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_015_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_015_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_015_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_015_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_015_2021-08-27_12:00:00 ./bgd_015.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_015.dat ']'
++ echo ' LETKF: ./ana_015.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_015.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_015.dat
++ ifile=16
++ '[' 16 -le 21 ']'
++ '[' 16 -lt 10 ']'
++ '[' 16 -lt 100 ']'
++ prefix=016
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_016_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_016_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_016_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_016_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_016_2021-08-27_12:00:00 ./bgd_016.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_016.dat ']'
++ echo ' LETKF: ./ana_016.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_016.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_016.dat
++ ifile=17
++ '[' 17 -le 21 ']'
++ '[' 17 -lt 10 ']'
++ '[' 17 -lt 100 ']'
++ prefix=017
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_017_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_017_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_017_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_017_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_017_2021-08-27_12:00:00 ./bgd_017.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_017.dat ']'
++ echo ' LETKF: ./ana_017.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_017.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_017.dat
++ ifile=18
++ '[' 18 -le 21 ']'
++ '[' 18 -lt 10 ']'
++ '[' 18 -lt 100 ']'
++ prefix=018
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_018_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_018_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_018_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_018_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_018_2021-08-27_12:00:00 ./bgd_018.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_018.dat ']'
++ echo ' LETKF: ./ana_018.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_018.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_018.dat
++ ifile=19
++ '[' 19 -le 21 ']'
++ '[' 19 -lt 10 ']'
++ '[' 19 -lt 100 ']'
++ prefix=019
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_019_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_019_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_019_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_019_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_019_2021-08-27_12:00:00 ./bgd_019.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_019.dat ']'
++ echo ' LETKF: ./ana_019.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_019.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_019.dat
++ ifile=20
++ '[' 20 -le 21 ']'
++ '[' 20 -lt 10 ']'
++ '[' 20 -lt 100 ']'
++ prefix=020
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_020_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_020_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_020_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_020_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_020_2021-08-27_12:00:00 ./bgd_020.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_020.dat ']'
++ echo ' LETKF: ./ana_020.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_020.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_020.dat
++ ifile=21
++ '[' 21 -le 21 ']'
++ '[' 21 -lt 10 ']'
++ '[' 21 -lt 100 ']'
++ prefix=021
++ '[' NO == YES ']'
++ check_file=/N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_021_2021-08-27_12:00:00
++ '[' -f /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_021_2021-08-27_12:00:00 ']'
++ echo ' LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_021_2021-08-27_12:00:00 exists'
+ LETKF: input file: /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_021_2021-08-27_12:00:00 exists
++ ln -sf /N/slate/ckieu/tc_wrf_letkf/bgd/202108271200/bgd_d01_021_2021-08-27_12:00:00 ./bgd_021.dat
++ '[' EXP_REAL == EXP_IDEAL ']'
++ '[' EXP_REAL == EXP_REAN ']'
++ '[' CIMSS == CONTROL ']'
++ '[' -f ./ana_021.dat ']'
++ echo ' LETKF: ./ana_021.dat do not exit... cp from wrfinput_d01'
+ LETKF: ./ana_021.dat do not exit... cp from wrfinput_d01
++ cp -f wrfinput_d01 ana_021.dat
++ ifile=22
++ '[' 22 -le 21 ']'
++ '[' CIMSS '!=' CONTROL ']'
++ rm -f '*~' error.status
++ mpirun -n 4 ./letkf_mpi.exe
+--------------------------------------------------------------------------
+No OpenFabrics connection schemes reported that they were able to be
+used on a specific port.  As such, the openib BTL (OpenFabrics
+support) will be disabled for this port.
+
+  Local host:           c1
+  Local device:         mlx5_0
+  Local port:           1
+  CPCs attempted:       rdmacm, udcm
+--------------------------------------------------------------------------
+[c1.quartz.uits.iu.edu:920143] 3 more processes have sent help message help-mpi-btl-openib-cpc-base.txt / no cpcs for port
+[c1.quartz.uits.iu.edu:920143] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
++ '[' -f error.status ']'
++ echo ' LETKF: letkf_mpi.exe ran smoothly...'
+ LETKF: letkf_mpi.exe ran smoothly...
++ mv letkf.dat letkf_202108271200.dat
++ ifile=1
++ '[' 1 -le 21 ']'
++ '[' 1 -lt 10 ']'
++ prefix=001
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_001 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_001
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_001.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_001/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_001/wrfbdy_d01
++ ifile=2
++ '[' 2 -le 21 ']'
++ '[' 2 -lt 10 ']'
++ prefix=002
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_002 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_002
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_002.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_002/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_002/wrfbdy_d01
++ ifile=3
++ '[' 3 -le 21 ']'
++ '[' 3 -lt 10 ']'
++ prefix=003
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_003 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_003
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_003.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_003/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_003/wrfbdy_d01
++ ifile=4
++ '[' 4 -le 21 ']'
++ '[' 4 -lt 10 ']'
++ prefix=004
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_004 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_004
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_004.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_004/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_004/wrfbdy_d01
++ ifile=5
++ '[' 5 -le 21 ']'
++ '[' 5 -lt 10 ']'
++ prefix=005
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_005 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_005
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_005.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_005/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_005/wrfbdy_d01
++ ifile=6
++ '[' 6 -le 21 ']'
++ '[' 6 -lt 10 ']'
++ prefix=006
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_006 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_006
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_006.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_006/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_006/wrfbdy_d01
++ ifile=7
++ '[' 7 -le 21 ']'
++ '[' 7 -lt 10 ']'
++ prefix=007
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_007 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_007
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_007.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_007/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_007/wrfbdy_d01
++ ifile=8
++ '[' 8 -le 21 ']'
++ '[' 8 -lt 10 ']'
++ prefix=008
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_008 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_008
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_008.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_008/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_008/wrfbdy_d01
++ ifile=9
++ '[' 9 -le 21 ']'
++ '[' 9 -lt 10 ']'
++ prefix=009
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_009 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_009
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_009.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_009/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_009/wrfbdy_d01
++ ifile=10
++ '[' 10 -le 21 ']'
++ '[' 10 -lt 10 ']'
++ '[' 10 -lt 100 ']'
++ prefix=010
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_010 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_010
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_010.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_010/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_010/wrfbdy_d01
++ ifile=11
++ '[' 11 -le 21 ']'
++ '[' 11 -lt 10 ']'
++ '[' 11 -lt 100 ']'
++ prefix=011
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_011 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_011
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_011.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_011/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_011/wrfbdy_d01
++ ifile=12
++ '[' 12 -le 21 ']'
++ '[' 12 -lt 10 ']'
++ '[' 12 -lt 100 ']'
++ prefix=012
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_012 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_012
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_012.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_012/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_012/wrfbdy_d01
++ ifile=13
++ '[' 13 -le 21 ']'
++ '[' 13 -lt 10 ']'
++ '[' 13 -lt 100 ']'
++ prefix=013
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_013 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_013
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_013.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_013/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_013/wrfbdy_d01
++ ifile=14
++ '[' 14 -le 21 ']'
++ '[' 14 -lt 10 ']'
++ '[' 14 -lt 100 ']'
++ prefix=014
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_014 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_014
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_014.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_014/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_014/wrfbdy_d01
++ ifile=15
++ '[' 15 -le 21 ']'
++ '[' 15 -lt 10 ']'
++ '[' 15 -lt 100 ']'
++ prefix=015
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_015 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_015
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_015.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_015/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_015/wrfbdy_d01
++ ifile=16
++ '[' 16 -le 21 ']'
++ '[' 16 -lt 10 ']'
++ '[' 16 -lt 100 ']'
++ prefix=016
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_016 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_016
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_016.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_016/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_016/wrfbdy_d01
++ ifile=17
++ '[' 17 -le 21 ']'
++ '[' 17 -lt 10 ']'
++ '[' 17 -lt 100 ']'
++ prefix=017
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_017 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_017
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_017.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_017/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_017/wrfbdy_d01
++ ifile=18
++ '[' 18 -le 21 ']'
++ '[' 18 -lt 10 ']'
++ '[' 18 -lt 100 ']'
++ prefix=018
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_018 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_018
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_018.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_018/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_018/wrfbdy_d01
++ ifile=19
++ '[' 19 -le 21 ']'
++ '[' 19 -lt 10 ']'
++ '[' 19 -lt 100 ']'
++ prefix=019
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_019 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_019
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_019.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_019/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_019/wrfbdy_d01
++ ifile=20
++ '[' 20 -le 21 ']'
++ '[' 20 -lt 10 ']'
++ '[' 20 -lt 100 ']'
++ prefix=020
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_020 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_020
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_020.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_020/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_020/wrfbdy_d01
++ ifile=21
++ '[' 21 -le 21 ']'
++ '[' 21 -lt 10 ']'
++ '[' 21 -lt 100 ']'
++ prefix=021
++ '[' -d /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_021 ']'
++ mkdir /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_021
++ '[' EXP_REAL == EXP_IDEAL ']'
++ mv ana_021.dat /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_021/wrfinput_d01
++ cp wrfbdy_d01 /N/slate/ckieu/tc_wrf_letkf/ana/202108271200/mem_021/wrfbdy_d01
++ ifile=22
++ '[' 22 -le 21 ']'
++ '[' -f ./error.status ']'
++ mv ./error.status /N/slate/ckieu/tc_wrf_letkf/run/status_letkf_ok
++ echo ' LETKF script finished safely '
++ rm -f bgd_001.dat bgd_002.dat bgd_003.dat bgd_004.dat bgd_005.dat bgd_006.dat bgd_007.dat bgd_008.dat bgd_009.dat bgd_010.dat bgd_011.dat bgd_012.dat bgd_013.dat bgd_014.dat bgd_015.dat bgd_016.dat bgd_017.dat bgd_018.dat bgd_019.dat bgd_020.dat bgd_021.dat wrfinput_d01 wrfbdy_d01
++ echo ' LETKF script finished safely     '
+ LETKF script finished safely     

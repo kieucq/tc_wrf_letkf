@@ -1,0 +1,1 @@
+../script/runini.sh

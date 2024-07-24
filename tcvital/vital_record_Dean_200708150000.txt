@@ -1,0 +1,6 @@
+name="Dean"                 # name
+cycle="200708150000"        # cycle to begin
+clat="11.9"                 # center lat
+clon="-41.7"                # center lon 
+stormid="04"                # ID of storm
+stormbasin="AL"             # storm basin (WP/AL/EP)

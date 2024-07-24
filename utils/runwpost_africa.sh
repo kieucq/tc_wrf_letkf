@@ -1,0 +1,1 @@
+/mnt/iscsi/kieuc/operation_africa/wrfpost/runwpost_africa.sh

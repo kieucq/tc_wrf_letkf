@@ -1,0 +1,179 @@
+#!/bin/ksh
+# get_nems.ksh - 11 Jul 2007
+#  parse & expand BUFR table sequences
+#  24 Sep 2003 - added checks for nems in part A & C
+#  26 Sep 2003 - added description reporting
+#   7 Nov 2003 - generalized for use on f/s or workstation;
+#                trapped following-value & non-delayed nems, & operators. 
+#  23 Feb 2005 - updated bufrtab location for Blue/White
+#   3 Mar 2005 - updated bufrtab location for Snow/Frost
+#  24 May 2005 - updated bufrtab location
+#   9 Sep 2005 - grabbed mtst from NC* args
+#   6 Jul 2006 - upgraded dir handling ('here' var; bufrtab.mods location)
+#  27 Jul 2006 - added usage & '-h' option handling
+#   7 Aug 2006 - allowed import of value for LIST (bufr_dumplist)
+#  20 Dec 2006 - added "[]" to operators removed by sed cmds
+#   3 May 2007 - cleaned out settings for obsolete platforms; rm'd cd WDIR.
+#  11 Jul 2007 - added "Descriptions:" header
+#  10 Dec 2007 - comment out 'mt=...' ; INCOMPLETE MODIFICATION
+usage='get_nems <datatype (eg, metar)> [bufrtable|mods] [OPTS:LOUD|desc]'
+
+dtyp=${1:?"$usage"}
+[ .$dtyp = '.-h' ] && { echo "$usage" ; exit ; }
+bspec=${2:-$bspec}
+OPTS=${3:-'loud'}
+
+hn=`hostname` ; h1=`echo $hn | cut -c1`
+
+case $h1 in 
+    l) WDIR='/usr1/wd20jw//modsbufr/tables/'
+#      LIST=/usr1/wd20jw/bufr/bufr_dumplist
+       BDIR='./bufrtab'      ;;               # lnx257
+  m|d) WDIR='/stmp/$USER/'
+       LIST=${LIST:-/u/wx20wh/doc/bufr_dumplist}
+       BDIR='/nwprod/fix'    ;;               # mist/dew
+esac
+
+here=$(pwd)
+# cd $WDIR ;#echo "gn: HOST=$hn  PWD=`pwd`/" ; echo "gn: LIST='$LIST'  BDIR='$BDIR'"
+
+if [ $(echo $dtyp | cut -c1-2) = 'NC' ] ; then 
+  mtst=$(echo $dtyp | cut -c3-8)
+else
+  mtst=`grep "_$dtyp " $LIST|cut -c 16-500|cut -f 1 -d# | sed 's/ *$//'`
+fi # dtyp = NC*
+###if [ ".$mtst" = . ] ; then { echo "bad dtyp='$dtyp' -exiting" ; exit ; } ; fi
+mt=`echo $mtst | cut -c1-3`
+
+#echo "debug: mtst='$mtst' -- debug exit" ; exit
+
+
+mtab=/nwprod/fix/bufrtab.mods
+if [ .$(echo $bspec | tr [A-Z] [a-z]) = .mods ] ; then 
+  bspec=$mtab
+else
+  bfile=bufrtab.$mt
+  bspec=${bspec:-"${BDIR}/$bfile"}
+fi # bspec = 'mods'
+
+if [ .$(echo $bspec | cut -c1) != ./ ] ; then bspec="$here/$bspec" ; fi
+
+if [ ! -s $bspec ] ; then 
+  echo "'$bspec' not found - exiting" ; exit 
+else
+  echo "bufrtable='$bspec'"
+fi
+
+# Get Table-A Entry Description from bufrtab
+# ------------------------------------------
+desc=`sed '/MNEMONIC | NUM/,/MNEMONIC | SEQ/p;d' $bspec | \
+  egrep -i "^\| NC$mtst |^\| $dtyp " | cut -d\| -f4`
+echo "desc='$desc'"
+    
+
+# Get list of nems from Table-B Sequences section in bufrtab
+# ----------------------------------------------------------
+DTYP=`echo $dtyp | tr [a-z] [A-Z]` ; echo "DTYP='$DTYP'"
+nemspr=`sed '/MNEMONIC | SEQUENCE/,$p;d' $bspec | \
+  awk "BEGIN{FS=\"|\"};\\$2~/NC$mtst/||\\$2~/ $DTYP /{printf \\$3}"`
+nemspr=`echo $nemspr | sed 's/  */ /g; s/^ //; s/ $//'`
+nems=`echo $nemspr | sed 's/{//g;s/}//g; s/<//g;s/>//g; s/\[//g;s/\]//g'`
+ echo "`echo $nemspr | wc -w | sed 's/ //g'` initial nems: '$nemspr'"
+
+
+# Define function to expand mnemonics lists
+# --input: $1==nems list
+# -output: nems_out==expanded nems list
+# -----------------------------------------
+function get_seq { 
+  nemstr='' ; seqstr=''
+  while [ ".$1" != . ] ; do
+    thisnem=$1   # echo "gs: tn='$thisnem'"
+
+    case $thisnem in 
+      .*|20[126]*) # skip following-value mnems & operators (201*,202*,206*)
+                   # echo "tn='$thisnem' dot 20"
+                     shift ; continue
+                   ;;
+              \"*) # parse non-delayed replications (eg, "BRIT"20)
+                     q2=`echo $thisnem | cut -c2- | \
+                         awk '{q=index($0,"\"");print q}'`
+                   # tn=`echo $thisnem | cut -c2-$q2`
+                   # echo "tn='$thisnem' quote $q2 tn='$tn'"
+                     thisnem=`echo $thisnem | cut -c2-$q2`
+                   ;;
+                *) # echo "tn='$thisnem' other"
+                   ;;
+    esac
+
+    seqpr=`sed '/MNEMONIC | SEQUENCE/,/MNEMONIC | SCAL/p;d' $bspec | \
+      awk "BEGIN{FS=\"|\"};\\$2~/ $thisnem /{ printf \"%s\n\", \\$3}"`
+    seqpr=`echo $seqpr | sed 's/  */ /g; s/^ //; s/ $//'`
+    seq=`echo $seqpr | sed 's/{//g;s/}//g;s/<//g;s/>//g;s/\[//g;s/\]//g'`
+
+
+    if [ ".$seq" != . ] ; then 
+      if [ ".$OPTS" = .loud -o DOIT = DOIT ] ; then 
+        echo "'$thisnem' => '$seqpr'" ; fi
+      seqstr="$seqstr$thisnem "
+      nemstr="$nemstr$seq "
+    else
+      nemstr="$nemstr$thisnem "
+    fi # sequence found
+    shift
+  done # while thisnem exists
+  nemstr=`echo $nemstr | sed 's/  */ /g; s/^ *//; s/ *$//'`
+  seqstr=`echo $seqstr | sed 's/  */ /g; s/^ *//; s/ *$//'`
+} # get_seq
+
+
+# Expand nems string recursively until no more changes
+# ----------------------------------------------------
+nems0='' ; n=0
+until [ ".$nems0" = ".$nems" ] ; do 
+  nems0="$nems"
+  get_seq $nems  ; nems="$nemstr" 
+  if [ ".$seqstr" != . ] ; then seqs="$seqs$seqstr " ; fi
+echo '==='
+done # until nems unchanged
+
+
+# Print out results
+# -----------------
+nseqs=`echo $seqs | wc -w | sed 's/ //g'`
+nnems=`echo $nems | wc -w | sed 's/ //g'`
+ntot=$((nseqs+nnems))
+printf "$dtyp -- $ntot total items:  "
+if [ ".$OPTS" = .desc ] ; then 
+  echo "$nseqs seqs  $nnems nems" 
+###else 
+fi # OPTS=desc
+  echo '' # close printf above
+  echo "$nseqs seqs: '$seqs'"
+  echo "$nnems nems: '$nems'" 
+###fi # OPTS=desc
+
+if [ ".$OPTS" = .desc -a ".$desc" != . ] ; then echo 'Descriptions:' ; fi
+
+for n in $seqs ; do
+  n2=`echo $n | cut -c1-2` ; if [ ".$n2" = .20 ] ; then continue ; fi
+  desc=`sed '/MNEMONIC | NUM/,/MNEMONIC | SEQ/p;d' $bspec | \
+    egrep -i "^\| $n " | cut -d\| -f4`
+  if [ ".$desc" = . ] ; then echo "$n: --- ERROR! not in Part1!!! ---" ; fi
+  if [ ".$OPTS" = .desc -a ".$desc" != . ] ; then printf '%6s:%s\n' "$n" "$desc" ; fi
+done # over seqs
+
+if [ ".$OPTS" = .desc -a ".$desc" != . ] ; then echo 'Descriptions (non-sequence):' ; fi
+
+for n in $nems ; do
+  n2=`echo $n | cut -c1-2` ; if [ ".$n2" = .20 ] ; then continue ; fi
+  desc=`sed '/MNEMONIC | NUM/,/MNEMONIC | SEQ/p;d' $bspec | \
+    egrep -i "^\| $n " | cut -d\| -f4`
+  if [ ".$desc" = . ] ; then echo "$n: --- ERROR! not in Part1!!! ---" ; fi
+  if [ ".$OPTS" = .desc -a ".$desc" != . ] ; then printf '%6s:%s\n' "$n" "$desc" ; fi
+  desc=`sed '/MNEMONIC | SCA/,$p;d' $bspec | \
+    egrep -i "^\| $n " | cut -d\| -f4`
+  if [ ".$desc" = . ] ; then echo "$n: --- ERROR! not in Part3!!! ---" ; fi
+done # over nems
+
+exit # get_nems.ksh

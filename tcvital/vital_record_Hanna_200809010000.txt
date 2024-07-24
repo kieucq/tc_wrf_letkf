@@ -1,0 +1,7 @@
+name="Hanna"         # name
+time="200809010000" # cycle to begin
+clat="23.5"           # center lat 
+clon="-71.6"          # center lon
+vmax="25"           # maximum observed wind
+pmin="999"          # minimum surface pressure
+rmw="100"           # radius of maximum surface wind

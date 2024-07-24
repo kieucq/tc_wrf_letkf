@@ -1,0 +1,6 @@
+k_shear1 = 2  ! height to search for lower shear
+k_shear2 = 10 ! height to search for upper shear
+k_w      = 10 ! height to search for max w
+k_rh     = 10 ! height to search for mid level rh
+k_area   = 10 ! area to search for rmw
+k_rmw    = 2  ! height to search for maximum surface wind

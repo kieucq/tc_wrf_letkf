@@ -1,0 +1,198 @@
+-1                  ! number of times to put in GrADS file, negative means ignore the times
+2005-07-17_00:00:00
+end_of_time_list
+                     ! 3D variable list for GrADS file
+                     ! indent one space to skip
+U                   ! U Compoment of wind
+V                   ! V Component of wind
+ UMET                ! U Compoment of wind - rotated (diagnostic)
+ VMET                ! V Component of wind - rotated (diagnostic)
+ W                   ! W Component of wind
+ THETA               ! Theta
+ TK                  ! Temperature in K
+ GRADPU              ! Gradient of pressure in x direction  
+ GRADPV              ! Gradient of pressure in y direction wrong index in Resitry
+ RU_TENDF            ! U tendency physics m s-1 Pa
+ RV_TENDF            ! V tendency physics m s-1 Pa
+ RV_TEND             ! V tendency physics m s-1 Pa -- mistaken name, it is physics tendency
+ RW_TENDF            ! W tendency physics m s-1 Pa
+ T_TEND              ! T tendency K s-1 Pa
+ H_DIABATIC          ! diabatic heating K s-1 Pa
+ TC                  ! Temperature in C
+ TEMGRAD              ! gradient of temperature in y-direction
+ BINS                 ! barotropic instability: beta-d^2u/dy^2
+ TKE                 ! TURBULENCE KINETIC ENERGY
+ P                   ! Pressure (HPa)
+Z                   ! Height (m)
+ DHEATING            ! total diabatic heating
+ QVAPOR              ! Vapor
+ QCLOUD              ! Cloud Water
+ QRAIN               ! Rain Water
+ QICE                ! -
+ QSNOW               ! -
+ QGRAUP              ! -
+ TKE_MYJ             ! TKE FROM MELLOR-YAMADA-JANJIC
+ PB                  ! BASE STATE PRESSURE AT HALF LEVEL
+ TD                  ! Dewpoint Temperature (diagnostic)
+ TD_IN                ! Dewpoint Temperature (diagnostic) from wrf_real_xxx
+ RH                  ! Relative Humidity (diagnostic)
+ RH_INPUT             ! Relative Humidity (diagnostic) from  wrf_real_xxx
+                    ! Soil variables                                         
+ TSLB                ! SOIL TEMPERATURE
+ SMOIS               ! SOIL MOISTURE
+                    ! below a list of fields from SI static and input files
+ LANDUSEF            ! -                                                     
+ SOILCTOP            ! -                                                     
+ SOILCBOT            ! -                                                     
+ SPECHUMD            ! -
+ GREEN12M            ! -                                                     
+ ALBDO12M            ! -
+ VORT                ! Vorticity from u and v
+ DIV                 ! Divergence from u and v
+ DIREC               ! Direction of u and v to plot skewT-logP
+ PRES_INPUT          ! pressure from  wrf_real_input_xxxx
+ THETA_E             ! equivalent potential temp from  wrf_real_input_XXX 
+ THETAE1             ! equivalent potential temp from wrfout_xxx
+ PV                  ! Potential vorticity
+ PV_INS              ! Insability from Potential vorticity
+ RTHRATEN            ! Total Theta tendency 
+ RTHRATLW            ! Theta tendency of longwave
+ RTHRATSW            ! Theta tendency of short wave
+end_of_3dvar_list
+ ACSNOM              ! ACCUMULATED MELTED SNOW
+ ACSNOW              ! ACCUMULATED SNOW
+ AKHS                ! SFC EXCH COEFF FOR HEAT
+ AKMS                ! SFC EXCH COEFF FOR MOMENTUM
+ CANWAT              ! CANOPY WATER
+ GLW                 ! DOWNWARD LONG WAVE FLUX AT GROUND SURFACE
+ GSW                 ! DOWNWARD SHORT WAVE FLUX AT GROUND SURFACE
+ HFX                 ! UPWARD HEAT FLUX AT THE SURFACE
+ HGT                 ! Terrain Height
+ IVGTYP              ! VEGETATION TYPE
+ ISLTYP              ! SOIL TYPE
+ LU_INDEX            ! LAND USE CATEGORY
+ MAPFAC_M            ! Map scale factor on mass grid
+ MU                  ! Perturbation dry air mass in column
+ MUB                 ! base state dry air mass in column
+ MU0                 ! initial dry mass in column
+ Q2                  ! QV at 2 M
+ LH                  ! Latent heat flux
+ QFX                 ! UPWARD MOISTURE FLUX AT THE SURFACE
+ RAINC               ! ACCUMULATED TOTAL CUMULUS PRECIPITATION
+ RAINCV              ! TIME-STEP CUMULUS PRECIPITATION
+ RAINNC              ! ACCUMULATED TOTAL GRID SCALE PRECIPITATION
+ SFROFF              ! SURFACE RUNOFF
+slvl                ! sea level pressure
+ pmsl                ! sea level pressure from   wrf_real_input_xxxxxxx
+ PSFC_REAL           ! surface p from  wrf_real
+ PSFC                ! surface p from wrf_out  
+ SMSTAV              ! MOISTURE VARIBILITY
+ SNOW                ! SNOW WATER EQUIVALENT
+ SNOWC               ! FLAG INDICATING SNOW COVERAGE (1 FOR SNOW COVER)
+ SST                 ! SEA SURFACE TEMPERATURE
+ T2                  ! TEMP at 2 M
+ TH2                 ! POT TEMP at 2 M
+ TMN                 ! SOIL TEMPERATURE AT LOWER BOUNDARY
+ TSK                 ! SURFACE SKIN TEMPERATURE
+ U10                 ! U at 10 M
+ U10M                ! U at 10 M - rotated
+ V10                 ! V at 10 M
+ V10M                ! V at 10 M - rotated
+ UDROFF              ! UNDERGROUND RUNOFF
+ VEGFRA              ! VEGETATION FRACTION
+ WEASD               ! WATER EQUIVALENT OF ACCUMULATED SNOW
+ PSFC                ! Surface pressure from WRF
+ XLAT                ! LATITUDE, SOUTH IS NEGATIVE
+ XLONG               ! LONGITUDE, WEST IS NEGATIVE
+ XLAND               ! LAND MASK (1 FOR LAND, 2 FOR WATER)
+                    ! below a list of fields from SI static and input files
+ ALBBCK              ! - 
+ LANDMASK            ! -
+ PMSL                ! -
+ SLOPECAT            ! -
+ SHDMAX              ! -
+ SHDMIN              ! -
+ SNOALB              ! -
+ SOILHGT             ! -
+ ST000010            ! -
+ ST010040            ! -
+ ST040100            ! -
+ ST100200            ! -
+ SM000010            ! -
+ SM010040            ! -
+ SM040100            ! -
+ SM100200            ! -
+ TOPOSTDV            ! -
+ TOPOSLPX            ! -
+ TOPOSLPY            ! -
+ XICE                ! -
+end_of_2dvar_list
+                    ! All list of files to read here
+                    ! Indent not to read
+                    ! Full path OK
+wrfinput_d01
+ wrfinput_d01_3dvar
+ wrfinput_d01_letkf
+ wrfout_d01_2010-05-16_00:00:00_mem1
+ bgd_d01_001_2010-05-16_00:00:00
+ wrfout_d01_2010-05-15_18:00:00
+ wrfout_d01_2010-05-16_00:00:00
+ wrfout_d01_2010-05-16_06:00:00
+ wrfout_d01_2010-05-16_12:00:00
+ wrfout_d01_2010-05-16_18:00:00
+ wrfout_d01_2010-05-17_00:00:00
+ wrfout_d01_2010-05-17_06:00:00
+ wrfout_d01_2010-05-17_12:00:00
+ wrfout_d01_2010-05-17_18:00:00
+ wrfout_d01_2010-05-15_12:00:00
+ wrfout_d01_2010-05-15_18:00:00
+ wrfout_d01_2010-05-16_00:00:00
+ wrfout_d01_2010-05-16_06:00:00
+ wrfout_d01_2010-05-16_12:00:00
+ wrfout_d01_2010-05-16_18:00:00
+ wrfout_d01_2010-05-17_00:00:00
+ wrfout_d01_2010-05-17_06:00:00
+ wrfout_d01_2010-05-17_12:00:00
+
+ ctl_d01_2010-05-15_12:00:00
+ ctl_d01_2010-05-15_18:00:00
+ ctl_d01_2010-05-16_00:00:00
+ ctl_d01_2010-05-16_06:00:00
+ ctl_d01_2010-05-16_12:00:00
+ ctl_d01_2010-05-16_18:00:00
+ ctl_d01_2010-05-17_00:00:00
+ ctl_d01_2010-05-17_06:00:00
+ ctl_d01_2010-05-17_12:00:00
+
+
+end_of_file_list
+                    ! Now we check to see what to do with the data
+real                ! real (input/output) / ideal / static
+1                   ! 0=no map background in grads, 1=map background in grads
+0                   ! specify grads vertical grid  
+                    !  0=cartesian, 
+                    ! -1=interp to z from lowest h
+                    !  1 list levels (either height in km, or pressure in mb)
+990.00000
+950.00000
+900.00000
+850.00000
+800.00000
+750.00000
+700.00000
+650.00000
+600.00000
+550.00000
+500.00000
+450.00000
+400.00000
+350.00000
+300.00000
+250.00000
+200.00000
+150.00000
+100.00000
+80.00000
+50.00000
+
+

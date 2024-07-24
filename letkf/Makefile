@@ -1,0 +1,74 @@
+#
+# [NOTE]
+#       This is a makefile for the letkf program. Simply
+#       type "make all" to have the main program letkf_mpi.exe
+#       and the program letkf_check.exe for checking the
+#       output (in GrADs format).
+#
+# [HISTORY]
+#     - 25 Mar 2010: created by Chanh Kieu
+#    
+# [AUTHOR]
+#       Chanh Q. Kieu
+#       Dept of Meteorology
+#       Vietnam National University
+#       email: kieucq@atmos.umd.edu     
+#
+#========================================================
+#
+.IGNORE:
+
+.SUFFIXES:.f90 .f .o
+
+RM_LIST= *.o letkf_mpi.exe *~ *mod letkf_check.exe letkf_restart.exe 
+INCLUDE=../Registry
+PROGRAM= letkf_mpi.exe letkf_check.exe letkf_restart.exe
+#LDOPTION=
+
+include ../configure.letkf
+
+.f.o:
+	$(RM) $@
+	$(MPIF90) -c $(FCFLAGS) $*.f -I$(NETCDF)/include $(NETCDF)/lib/libnetcdf.a
+
+.f90.o:
+	$(RM) $@
+	$(MPIF90) -c $(FCFLAGS) $*.f90 -I$(NETCDF)/include $(NETCDF)/lib/libnetcdf.a
+
+OBJS1=  letkf_mpi.o module_common_io.o module_letkf_core.o \
+	module_common_mtx.o module_netlib.o module_common_interface.o \
+	module_common_utils.o mt19937ar.o module_common_random.o \
+        module_common_global.o module_common_mpi.o
+
+OBJS2=  letkf_check.o module_common_utils.o
+
+OBJS3=  letkf_restart.o module_common_utils.o
+
+all: $(PROGRAM)
+
+letkf_mpi.exe: $(OBJS1)
+	$(MPIF90) -o $@ $(FCFLAGS) $(OBJS1) -I$(NETCDF)/include/ $(NETCDF)/lib/libnetcdf.a
+
+letkf_check.exe: $(OBJS2)
+	$(MPIF90) -o $@ $(FCFLAGS) $(OBJS2) -I$(NETCDF)/include/ $(NETCDF)/lib/libnetcdf.a
+
+letkf_restart.exe: $(OBJS3)
+	$(MPIF90) -o $@ $(FCFLAGS) $(OBJS3) -I$(NETCDF)/include/ $(NETCDF)/lib/libnetcdf.a
+
+letkf_check.o: module_common_utils.o
+letkf_restart.o: module_common_utils.o
+module_common_utils.o:
+letkf_mpi.o: module_common_io.o module_letkf_core.o module_common_mtx.o module_common_interface.o module_common_utils.o module_common_random.o module_common_global.o module_common_mpi.o
+module_common_io.o: module_common_utils.o module_common_interface.o
+module_letkf_core.o: module_common_mtx.o module_common_interface.o module_common_interface.o
+module_common_mtx.o: module_common_random.o module_netlib.o mt19937ar.o
+module_netlib.o:
+module_common_interface.o: 
+module_common_utils.o:
+mt19937ar.o:
+module_common_random.o: mt19937ar.o
+module_common_global.o:
+module_common_mpi.o:
+
+clean:
+	$(RM) $(RM_LIST)

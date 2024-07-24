@@ -1,0 +1,1 @@
+../script/quartz_vinit.sh

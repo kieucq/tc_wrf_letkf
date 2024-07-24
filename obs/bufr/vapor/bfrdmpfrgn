@@ -1,0 +1,163 @@
+
+set -x
+
+## Must first run "/nwprod/ush/cwordsh block" on file pulled
+##   over from NESDIS server to block.
+
+[ $# -ne 3 ]  &&  exit 99
+
+DATA=/stmp/$USER/bufrdumpforeign
+mkdir -p $DATA
+cd $DATA
+err=$?
+
+#####[ "$err" -eq '0' ]  && rm *
+
+#######################################################################
+
+cat <<\inputEOF > source.f
+      PROGRAM BUFRDUMP
+C-----------------------------------------------------------------------
+C  MAIN PROGRAM BUFRDUMP
+C
+C  THIS CODE WILL DUMP THE MNEMONIC VALUES FOR SELECTED SUBSETS
+C
+C-----------------------------------------------------------------------
+C
+      COMMON/COUNT/KTS(54),KTF(54)
+C
+      CHARACTER*8  SUBSET,STNID,SID
+C
+      REAL(8) PSTNID(2),RSTNID
+
+      EQUIVALENCE (RSTNID,STNID)
+C
+      DATA  LUBFR/8/,LUPRT/6/,IREC/0/,KOUNT/0/
+      DATA  LINDX /19/
+
+C######################################################################
+C######################################################################
+C
+C ---> ENTER VALUE FOR "MODCNT" FOR DUMPING EVERY "MODCNT'TH" REPORT
+C      BASED ON OI/SSI REPORT TYPE SELECTION BELOW
+C
+      DATA MODCNT/1/
+ccc   DATA MODCNT/500/
+C
+C
+C ---> ENTER VALUE FOR REPORT ID TO DUMP A SPECIFIC REPORT REGARDLESS
+C      OF MODCNT ABOVE
+C
+cdak  SID = '86104A  '
+C
+C
+C  OPEN BUFR FILE - READ IN FIRST MESSAGE (TABLE A, B, D ENTRIES)
+C
+      CALL DATELEN(10)
+      CALL OPENBF(LUBFR,'IN',LINDX)
+      PRINT 100, LUBFR
+  100 FORMAT(/5X,'===> BUFR/PREPDA DATA SET IN UNIT',I3,' SUCCESSFULLY',
+     $ ' OPENED FOR INPUT; FIRST MESSAGE CONTAINS BUFR TABLES A,B,D'/)
+C
+C  READ IN FIRST DATA MESSAGE AND GET DATE
+C
+      CALL READIBM(LUBFR,SUBSET,IDATE,IRET)
+C
+      IF(IRET.NE.0)  GO TO 999
+      CALL UFBCNT(LUBFR,IREC,ISUB)
+      PRINT 101, IDATE
+  101 FORMAT(/' BUFR/PREPDA FILE HAS DATE: ',I10///)
+      PRINT 102, IREC,SUBSET,IDATE
+  102 FORMAT(/5X,'===> READ IN BUFR DATA MESSAGE NUMBER ',I5,' -- ',
+     $ 'TABLE A ENTRY IS "',A8,'" AND DATE IS',I11/)
+   10 CONTINUE
+C
+C  READ A SUBSET (REPORT) IN MESSAGE
+C
+      CALL READSB(LUBFR,IRET)
+ccccc CALL READERS(LUBFR,IRET)
+      IF(IRET.NE.0) THEN
+C
+C ALL SUBSETS IN THIS MESSAGE PROCESSED, READ IN NEXT DATA MESSAGE
+C  (IF ALL MESSAGES READ IN NO MORE DATA TO PROCESS)
+C
+         CALL READIBM(LUBFR,SUBSET,IDATE,IRET)
+         IF(IRET.NE.0)  GO TO 99
+         CALL UFBCNT(LUBFR,IREC,ISUB)
+         PRINT 102, IREC,SUBSET,IDATE
+         GO TO 10
+      END IF
+
+      KOUNT = KOUNT + 1
+      MODPRT = MOD(KOUNT-1,MODCNT)
+C
+C CHECK TO SEE IF THIS REPORT SHOULD BE DUMPED
+C
+      IF(MODPRT.EQ.0)  GO TO 80
+      GO TO 10
+   80 CONTINUE
+C
+C THIS REPORT HAS BEEN SELECTED FOR DUMPING
+C
+
+C######################################################################
+C######################################################################
+C
+ccc   CALL UFBDMP(-LUBFR,LUPRT) ! prints values in F15.6
+      CALL UFBDMP(+LUBFR,LUPRT) ! prints values in G15.6
+C
+ccccc call errexit(88)
+
+      GO TO 10
+   99 CONTINUE
+C
+C ALL REPORTS HAVE BEEN DECODED AND PROCESSED
+C
+      PRINT 3030, IREC
+ 3030 FORMAT(/10X,'==> ALL BUFR MESSAGES READ IN AND PROCESSED: TOTAL ',
+     $ 'NUMBER OF DATA MESSAGES IN BUFR/PREPDA FILE IS:',I4//
+     $ 25X,'* * *  REPORT COUNTS BY OI/SSI REPORT TYPE FROM INPUT ',
+     $ 'BUFR/PREPDA FILE  * * *'//)
+      PRINT 3040,(KTS(I),I=1,18),(KTF(I),I=1,18)
+ 3040 FORMAT(18I7)
+      PRINT 3041
+ 3041 FORMAT(/)
+      PRINT 3040,(KTS(I),I=19,36),(KTF(I),I=19,36)
+      PRINT 3041
+      PRINT 3040,(KTS(I),I=37,54),(KTF(I),I=37,54)
+      PRINT 3041
+      PRINT 3041
+      PRINT 3041
+      STOP
+  999 CONTINUE
+      CALL BORT('DECODE - ERROR READING BUFR DUMP FILE ')
+      END
+
+
+inputEOF
+#######################################################################
+
+ncepxlf -c -O3 -qlist -qsource -qnosave -qintsize=4 -qrealsize=4 \
+-bnoquiet -qxlf77=leadzero source.f
+
+ncepxlf source.o /nwprod/lib/libbufr_4_64.a /nwprod/lib/libw3_4.a -o source.x
+
+rm fort.*
+ln -sf $1   fort.8
+ln -sf $2   fort.19
+timex ./source.x >bufrdump.out.$3 2> errfile
+
+err=$?
+
+cat errfile >> bufrdump.out.$3
+
+if test "$err" -ne '0'
+then
+     echo "bufrdump.foreign failed - abnormal stop"
+
+else
+     echo "bufrdump.foreign successful - all done"
+fi
+##cat bufrdump.out.$3
+
+rm fort.*

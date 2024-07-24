@@ -1,0 +1,4 @@
+name="Jangmi"         # name
+time="200809250000" # cycle to begin
+clat="14.0"            # center lat
+clon="133.7"          # center lon

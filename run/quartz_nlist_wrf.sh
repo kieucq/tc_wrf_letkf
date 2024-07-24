@@ -1,0 +1,1 @@
+../script/quartz_nlist_wrf.sh

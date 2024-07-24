@@ -1,0 +1,57 @@
+#!/usr/bin/ksh
+# go_chkdat.ksh - 15 Feb 2007
+#
+# 18 Mar 2004 - orig
+# 16 Sep 2004 - enabled gzipped source files
+#  8 Dec 2004 - updated TDIR w/ chkdat subdir
+# 18 May 2005 - generalized TDIR w/ pid ($$); rm'd TDIR
+# 26 May 2005 - generalized TDIR w/ pid ($$)
+#  5 Oct 2006 - configured for Mist implementation
+# 23 Oct 2006 - removed reference to /gpfstmp for Mist
+# 15 Feb 2007 - parameterized TDIR w/ USER
+
+#set -euax
+
+bfil=${1:?"chkdat <bufrfile> [cymd]"}
+cymd=${2}
+
+#TDIR=/nfstmp/wx20wh/chkdat 
+tbase=/stmp                               # Mist temp directory
+[ ! -d $tbase ] && tbase=/gpfstmp
+TDIR=${tbase}/$USER/chkdat.$$ 
+[ -d $TDIR ] || mkdir $TDIR || { echo "error mkdir $TDIR - exiting" ; exit ; }
+
+if [ ! -f $bfil ] ; then 
+  echo "$bfil not found - exiting" 
+  exit 
+else
+
+  tfile=''
+  if [ .`echo $bfil | egrep 'gz$'` != . ] ; then 
+    zfile=$TDIR/`basename $bfil`
+    cp -p $bfil $zfile
+    gzip -d $zfile
+    tfile=`echo $zfile | sed 's/.gz//'`
+    bfil=$tfile
+  fi # file zipped
+
+  arg1=''
+  [ ."$cymd" != ."" ] && arg1="-d $cymd"
+
+  export XLFRTEOPTS="unit_vars=yes"
+  export XLFUNITS=0
+  unset `env | grep XLFUNIT | awk -F= '{print $1}'`
+
+  export XLFUNIT_20="$bfil"         # ln -sf $bfil fort.20
+
+  exec=/u/wx20wh/src/chkdat/chkdat.x
+
+  $exec $arg1
+
+# if [ .$tfile != . ] ; then rm -f $tfile ; fi
+  /bin/rm -rf $TDIR
+
+fi # src file exists
+
+# -- end of go_chkdat.ksh
+

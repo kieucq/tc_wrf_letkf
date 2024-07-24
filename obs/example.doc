@@ -1,0 +1,25 @@
+export RESTART_INTERVAL=21600
+export OBSMODE=RADS
+export RUNMODE=REAN
+export D01_NX=150
+export D01_NY=150
+export D01_NZ=30
+export D01_DX=36000
+export REF_LAT_MAIN=20
+export REF_LON_MAIN=112
+./runobs.sh 200805170000 1
+if [ $# == 2 ]; then
+  time_input=$1
+  data_year_obs=`echo ${time_input} | cut -c1-4`
+  data_month_obs=`echo ${time_input} | cut -c5-6`
+  data_day_obs=`echo ${time_input} | cut -c7-8`
+  data_hour_obs=`echo ${time_input} | cut -c9-10`
+  data_minute_obs=`echo ${time_input} | cut -c11-12`
+  fsct_length_hour=$2          
+  fsct_length_obs=$(($fsct_length_hour*60))                # forecast length in minutes
+else
+  echo " OBS: Please use the format "
+  echo " ./runob.sh YYYYMMDDHH HH"
+  echo " OBS is exiting 0"
+  exit 0
+fi

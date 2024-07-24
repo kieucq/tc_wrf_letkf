@@ -1,0 +1,196 @@
+
+set -x
+
+[ $# -ne 2 ]  &&  exit 99
+
+DATA=/stmp/$USER/bufrdump.datadump
+mkdir -p $DATA
+####cp ./bufrlib.prm $DATA
+cd $DATA
+err=$?
+
+#####[ "$err" -eq '0' ]  && rm *
+
+#######################################################################
+
+cat <<\inputEOF > source.f
+      PROGRAM BUFRDUMP
+C-----------------------------------------------------------------------
+C  MAIN PROGRAM BUFRDUMP
+C
+C  THIS CODE WILL DUMP THE MNEMONIC VALUES FOR SELECTED SUBSETS
+C
+C-----------------------------------------------------------------------
+C
+      COMMON/COUNT/KTS(54),KTF(54)
+C
+      CHARACTER*8  SUBSET,STNID,SID,SUBST
+C
+      REAL(8) PSTNID(2),RSTNID
+
+      EQUIVALENCE (RSTNID,STNID)
+C
+      DATA  LUBFR/8/,LUPRT/6/,IREC/0/,KOUNT/0/
+
+C######################################################################
+C######################################################################
+C
+C ---> ENTER VALUE FOR "MODCNT" FOR DUMPING EVERY "MODCNT'TH" REPORT
+C      BASED ON OI/SSI REPORT TYPE SELECTION BELOW
+C
+      DATA MODCNT/1/
+ccc   DATA MODCNT/500/
+ccc   DATA MODCNT/1000/
+C
+C
+C ---> ENTER VALUE FOR REPORT ID TO DUMP A SPECIFIC REPORT REGARDLESS
+C      OF MODCNT ABOVE
+C
+cdak  SID = '86104A  '
+C
+C
+C  OPEN BUFR FILE - READ IN FIRST MESSAGE (TABLE A, B, D ENTRIES)
+C
+      CALL DATELEN(10)
+      CALL OPENBF(LUBFR,'IN',LUBFR)
+      PRINT 100, LUBFR
+  100 FORMAT(/5X,'===> BUFR/PREPDA DATA SET IN UNIT',I3,' SUCCESSFULLY',
+     $ ' OPENED FOR INPUT; FIRST MESSAGE CONTAINS BUFR TABLES A,B,D'/)
+C
+C  READ IN FIRST DATA MESSAGE AND GET DATE
+C
+      CALL READMG(LUBFR,SUBSET,IDATE,IRET)
+C
+C
+C ---> ENTER VALUE FOR SUBSET TO DUMP (ALL REPORTS)
+C      (REGARDLESS OF MODCNT ABOVE)
+C
+      SUBST = 'NC001005'
+C
+      IF(IRET.NE.0)  GO TO 999
+      CALL UFBCNT(LUBFR,IREC,ISUB)
+      PRINT 101, IDATE
+  101 FORMAT(/' BUFR/PREPDA FILE HAS DATE: ',I10///)
+      PRINT 102, IREC,SUBSET,IDATE
+  102 FORMAT(/5X,'===> READ IN BUFR DATA MESSAGE NUMBER ',I5,' -- ',
+     $ 'TABLE A ENTRY IS "',A8,'" AND DATE IS',I11/)
+   10 CONTINUE
+C
+C  READ A SUBSET (REPORT) IN MESSAGE
+C
+      CALL READSB(LUBFR,IRET)
+      IF(IRET.NE.0) THEN
+C
+C ALL SUBSETS IN THIS MESSAGE PROCESSED, READ IN NEXT DATA MESSAGE
+C  (IF ALL MESSAGES READ IN NO MORE DATA TO PROCESS)
+C
+         CALL READMG(LUBFR,SUBSET,IDATE,IRET)
+         IF(IRET.NE.0)  GO TO 99
+         CALL UFBCNT(LUBFR,IREC,ISUB)
+         PRINT 102, IREC,SUBSET,IDATE
+         GO TO 10
+      END IF
+C
+C NOW, DECODE THE STATION ID FROM THE HEADER (FOR WIND PROFILERS)
+C
+      IFLAG = 0
+      IF(SUBSET.EQ.'NC002007')  THEN
+         CALL UFBINT(LUBFR,PSTNID,2,1,N1LEV1,'WMOB WMOS ')
+      ELSE
+         CALL UFBINT(LUBFR,RSTNID,1,1,N1LEV1,'RPID ')
+      ENDIF
+      IF(N1LEV1.NE.1)  THEN
+ccccc   PRINT *,'HDR ARRAY NOT RETURNING 1 LVL (RTNS ',N1LEV1,
+ccccc$   ') - STOP 99'
+ccccc    STOP 99
+      END IF
+      KOUNT = KOUNT + 1
+      MODPRT = MOD(KOUNT-1,MODCNT)
+C
+C CHECK TO SEE IF THIS REPORT SHOULD BE DUMPED
+C
+      IF(SUBSET.EQ.'NC002007')  THEN
+         WRITE(STNID(1:2),'(I2.2)')  PSTNID(1)
+         WRITE(STNID(3:5),'(I3.3)')  PSTNID(2)
+         STNID(6:8) = '   '
+      ENDIF
+cdak  IF(SUBSET.EQ.SUBST)  GO TO 80
+cdak  IF(STNID.EQ.SID)  GO TO 80
+      IF(MODPRT.EQ.0)  GO TO 80
+      GO TO 10
+   80 CONTINUE
+C
+C THIS REPORT HAS BEEN SELECTED FOR DUMPING
+C
+
+C######################################################################
+C
+C UNCOMMENT BELOW IF YOU WANT TO DUMP REPORT WITHIN SPECIFIC LAT. BAND
+C
+CCCC  IF(ILAT.LT.-6761.OR.ILAT.GT.-6759)  GO TO 10
+C
+C######################################################################
+C######################################################################
+C
+      CALL UFDUMP(LUBFR,LUPRT)
+ccccc CALL UFBDMP(-LUBFR,LUPRT) ! prints values in F15.6
+ccccc CALL UFBDMP(+LUBFR,LUPRT) ! prints values in G15.6
+C
+ccccc call errexit(88)
+
+      GO TO 10
+   99 CONTINUE
+C
+C ALL REPORTS HAVE BEEN DECODED AND PROCESSED
+C
+      PRINT 3030, IREC
+ 3030 FORMAT(/10X,'==> ALL BUFR MESSAGES READ IN AND PROCESSED: TOTAL ',
+     $ 'NUMBER OF DATA MESSAGES IN BUFR/PREPDA FILE IS:',I4//
+     $ 25X,'* * *  REPORT COUNTS BY OI/SSI REPORT TYPE FROM INPUT ',
+     $ 'BUFR/PREPDA FILE  * * *'//)
+      PRINT 3040,(KTS(I),I=1,18),(KTF(I),I=1,18)
+ 3040 FORMAT(18I7)
+      PRINT 3041
+ 3041 FORMAT(/)
+      PRINT 3040,(KTS(I),I=19,36),(KTF(I),I=19,36)
+      PRINT 3041
+      PRINT 3040,(KTS(I),I=37,54),(KTF(I),I=37,54)
+      PRINT 3041
+      PRINT 3041
+      PRINT 3041
+      STOP
+  999 CONTINUE
+      CALL BORT('DECODE - ERROR READING BUFR DUMP FILE ')
+      END
+
+inputEOF
+#######################################################################
+
+
+ncepxlf -c -O3 -qlist -qsource -qnosave -qintsize=4 -qrealsize=4 \
+-bnoquiet -qxlf77=leadzero source.f
+
+##ncepxlf source.o /nwprod/lib/libbufr_4_64.a /nwprod/lib/libw3_4.a -o source.x
+##ncepxlf  source.o /nco/sib/wx12ja/lib/libbufr_4_64.a /nwprod/lib/libw3_4.a \
+ncepxlf  source.o /home/decdev/lib/libbufr_4_64.a /nwprod/lib/libw3_4.a \
+ -o source.x \
+
+
+rm fort.*
+ln -sf $1   fort.8
+timex ./source.x >bufrdump.out.$2 2> errfile
+
+err=$?
+
+cat errfile >> bufrdump.out.$2
+
+if test "$err" -ne '0'
+then
+     echo "bufrdump.datadump failed - abnormal stop"
+
+else
+     echo "bufrdump.datadump successful - all done"
+fi
+##cat bufrdump.out.$2
+
+rm fort.*

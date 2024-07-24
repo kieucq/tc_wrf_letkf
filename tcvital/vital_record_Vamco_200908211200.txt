@@ -1,0 +1,6 @@
+name="Vamco"                # name
+time="200908211200"         # cycle to begin
+clat="21.1"                 # center lat
+clon="156.8"                # center lon
+stormid="11"                # ID of storm
+stormbasin="WP"             # storm basin (WP/AL/EP)
