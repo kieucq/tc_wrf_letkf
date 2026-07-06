@@ -1,454 +1,203 @@
-VERSION INFORMATION (v3.0, 11 Mar 2012)
-
-- A new vortex intialization component has been added 
-  based on the TC vital informaiton in a starndard format
-- tc_runmain.sh has been added new capability with different
-  scheduler sourced from an external file for better 
-  control for different platform
-- new scripts have been added to support different scheduler
-  platform
-- letkf has been modified to assimilation the geopotential
-  HEIGHT perturbation as well as in-homegeneous data sources
-  that may have undefined values (-99999 flag).
-
-VERSION INFORMATION (v2.2, 31 Mar 2012)
-
-- The tc_runmain.sh has been revised to allow for limitted
-  computational resource
-- tc_ensemble post process has been added more automated
-  steps
--
-
-  REMAINING ISSUES:
-  + localzation scales
-  + adaptive inflation
-  + d03 topo
-  + inclusion of more moisture vars
-  + surface obs
-  + support more obs types
-  + adding an arch support platfform
-  + 
-
-VERSION INFORMATION (v2.1.1, 30 Jan 2012)
-
-This versions has several updated as follows:
-
-- the wrfpost has been upgraded such as it can produce all 
-  TC tracking plots automatically as well as ensemble mean
-  as long as a directory poiting to output forecast and a
-  bogus bdeck file are present.  
-- MPI letkf version has been put in the main operational  
-  mode
-- an email option has been added to notify users when the
-  main program is done.
-
-
-VERSION INFORMATION (v2.1, 11 August 2011)
-
-This is the version that works well with opretational normal
-wethear, TC forecast, and research
-
-- fixed a bug in idealized experiment (geop perp is not a 
-  diagnostic var), but pressure perp is. Note that the 
-  pressure pertrubation from the idealized cases has to
-  decrease with height as it is a function of density...
-  ... more imporvement is needed. 
-- fixed a problem with the idealized bogused observation
-- parallelize the letkf code. Work much faster now with the
-  same amount of memory.
-- the typhoon scripts has been revised such as tc_namelist
-  has the obsmode as an input for more flexible runs
-- the rms.f90 has been revised to handle even missing cases.
-  A bug related to reading data has been fixed as well
-- more on cross correlation needs to be done...!!!
-
-
-VERSION INFORMATION (v1.9.8, 19 June 2011)
-
-This updated version includes following improvements:
-
-- added a TC configuration that allows for operationally forecasting
-  TC track when a tc vital record is entered
-- added a post-process routine to view 
-- added qsub for queing run with SGE/TORQUE bash queing
-- add multple physics options
-- revised the wpost.gs
-
-
-NOTE
-
-- need to edit parame.in for update_wrfda_bc
-- need to link Vtable to WPS
-- need to edit the set up in the runmain.sh carefully
-- need to edit the qsub for wrf (for now)
-
-
-VERSION INFORMATION (v1.9, 20 August 2010)
-
-This updated version includes following improvements:
-
-- got few compiler bugs fixed with the ifort compiler
-- allows for ensemble boundaries using WRFDA up_date_bc ultility.
-- include a new script for running WRF-3dvar and several other
-  enhancements of other shell scripts for dealing with 3dvar mode
-- obs points can now be arbitrary in the vertical direction, allowing
-  for more versatile obs data such as MADIS or GOES winds. 
-- option for REAL-TIME run has been added together with a master
-  script for obtaining GFS data and an automatical script for
-  creating figure in wrfpost. System is ready for operational
-  purposes.
-
-
-VERSION INFORMATION (v1.6, 5 August 2010)
-
-In this updated version, several very significant changes are made including:
-
-- allow for the quality control for each obs var at each location
-- the iterative input wrfinput_d01 for idealized run is an ensemble mean
-  instead of taking directly from the background. This is help the 
-  ensemble to not diverse too much. 
-- allow for observation to be arbitrary (previously, obs are pulled 
-  back to grid mesh).
-- the obs data for the real experiment has a big improvement. Instead
-  of using a prescribed obs error structure for each var, the WRFDA
-  OBSPROC has been used to perform quality control before assimlating.
-  So from this version, WRFDA has to be compiled also for the system
-  to run in the real mode. 
-
-DIR INFORMATION
-
-- ini:  dir that contains a cold start initialization for an ensemble of
-        initital inputs
-
-- truth: dir that contains an truth created from a base run of the base model.
-        This program will use an initial input and integrate the model with 
-        time, output at some regular interval as the truth benchmark.
-
-- obs:  dir contains the obs data that are created by running obs.exe. This 
-        program will read the truth and add some perturbed white noise to
-        the truth to mimic the real obs.
-
-- model: contains the systems of the WRF model including WRF-DA, WPS, WRF
-
-- letkf: contains the assimilation code that performs a data assimilation
-        process.
-
-- ana:  contains the analysis output
-
-- fsc:  contains the forecast for each cycle.
-
-- ctl:  contains the base run with no assimilation. This is needed to compare
-        to the runs with assimilation.
-
-- dig:  contains some diagnostic calculations
-
-- bgd:  contains the background backup after each assimilating cycle. 
-
-- utils: contains some ultility programs that do intermediate steps
-
-- wrfpost: this dir contains the wrf post processor (V2.1) that could be used
-        to have a quick plot of wrf output 
-
-- data: this is the place where WRF input and observation data is stored.
-
-- dig:  this is where the diagnostic calculations of assimilating system are
-        stored.
-
-
-HOW TO RUN:
-
-1. compile each directory by running install.sh (rememer to edit the configure.letkf
-   first before installing the program). Note that the whole WRF model including
-   WRFV3, WPS, and WRFDA have to be compiled as well. These model components are
-   stored in directory "model". 
-2. edit the namelist in ./run/runmain.sh (need to link all scripts from the script
-   dir to run dir for running the code)
-3. run the main script by typing ./runmain.sh.
-4. check the log files in ./run to see if there is any error
-5. plotting the output by going directly to the dig dir, where some diganostic
-   calculations are performed, or linking the output to wrfpost to have more
-   detailed plots. 
-
-
-DEBUG STEPS
-
-1. go to truth dir and run truth first (runtruth.sh) and plot to check
-2. go to obs dir and run obs.exe and plot to check
-3. go to ini dir and run ini.exe and plot to check
-4. go to ctl dir and run a control forecast
-5. go to letkf and run letkf.exe to check for a single assimilation
-6. if all run well, go to the main dir and run run.sh
-7. go to dig dir and check for diagnostic output and plots
-8. good luck
-
-
-NAMELIST GUIDE
-
-In the namelist guide below, pay attention particularly to the vars the have
-starisk on it. The numbers of star denotes the importance of the vars. The
-vars without star is either set in the main script (runmain.sh) or of no
-relevance to the users' use.
-
-Note that this namelist.letkf is generated automatically in the main script 
-(runmain.sh). So, all changes should be directed to that main script. Any
-change to the namelist.letkf in this dir (./) will be lost.
-
-debug          = 0               ! Debuging level
-restart        = 180             ! Output frequency for WRF run     [mn]
-                                 ! This output internval is defined
-				 ! in the main run script. Note that 
-				 ! there is a difference between WRF
-				 ! output interval and restart interval
-				 ! that is used for assimilating update.
-				   
-dy             = 81000           ! Grid distance in the y-direction [m]
-                                 ! This is defined in the main script
-				 
-zamp*          = 36              ! Amplitude of v-anomaly           [m]
-                                 ! This is a non-dimensiona para
-				 ! for an idealized vortex that is used
-				 ! for the cold start initialization
-				 ! of the idealized experiment. Users
-				 ! need to check truth/bvortex.ctl
-				 ! for the actual magnitude of this
-				 ! bogussed vortex. 
-				 
-zscale*        = 5e+4            ! Scale of v-anomaly               [m]
-                                 ! Same design as zamp but for the 
-				 ! horizontal scale of the vortex for
-				 ! the idealized experiment with bogused
-				 ! vortex.
-				 
-icen*          = 30              ! i-center of the anomaly          []
-                                 ! Same functions as zamp but for the 
-				 ! center of the idealized vortex. Note
-				 ! that the location is defined on WRF
-				 ! input mesh, So icen must < nx.
-				 
-jcen*          = 18              ! j-center of the anomaly          []
-                                 ! Same as i-center for the latitude
-				 ! direction.
- 				 
-obs_err_u**    = 1.2             ! obs error for u                  [m/s]
-                                 ! Statistical information for the obs
-				 ! of the zonal wind at the surface.
-				 ! This information is only used in creating
-				 ! bogussed obs for the ideal runs. My tests 
-				 ! showed that this obs is very important.
-				 ! So it is needed to be tuned carefully
-				 ! for the idealized experiment. For the
-				 ! real-time radionsonde assimilation,
-				 ! the obs statistcal information is taken
-				 ! directly from output of obsproc.exe (check
-				 ! /model/WRFDA/var/obsproc/obsproc.exe
-				 ! for more details)
-				 
-obs_err_v**    = 1.2             ! obs error for v                  [m/s]
-                                 ! The same as obs_err_v, but for the 
-				 ! meridional wind.
-				 
-obs_err_t**    = 1.2             ! obs error magnitude              [m]
-                                 ! The same as obs_err_t but for temperature
-				 
-obs_err_q**    = 1e-3            ! obs error for q                  [kg/kg]
-                                 ! The same as obs_err_t but for vapor
-				 
-obs_err_p**    = 1               ! obs error for geopoten perp      [m^2 s^-2]
-                                 ! The same as obs_err_t but for geopotential
-				 ! height perturbation. 
-				 
-bgd_err_u**    = 2.5             ! background err for u coldstart   [m]
-                                 ! Statistical information for the background
-				 ! of the zonal wind at the surface.
-				 ! This information is only used in creating
-				 ! cold start initialization. Various tests 
-				 ! showed that this bgd is very important.
-				 ! So it is needed to be tuned carefully
-				 ! for the idealized experiment. 
-				 
-bgd_err_v**    = 2.5             ! background err for v coldstart   [m/s]
-                                 ! The same as bgd_err_u but for y-wind
-				 
-bgd_err_t**    = 2.5             ! background err for T coldstart   [K]
-                                 ! The same as bgd_err_u but for temp
-				 
-bgd_err_q**    = 3e-3            ! background err for q coldstart   [kg/kg]
-                                 ! The same as bgd_err_u but for vapor
-				 
-bgd_err_p**    = 2.              ! background err for p coldstart   [m^2 s^-2]
-                                 ! The same as bgd_err_u but for geop height
-				 ! perturbation.
-				 
-model_flag*    = 0               ! flag for model: 0-perfect, 1-imperfect
-                                 ! This is for controling the assumption of model
-                                 ! error. The implementation for imperfect model
-                                 ! can be handle through inflation factor or by
-                                 ! by my own scheme. Set 0 if you are not sure
-                                 ! how to use it.
-				 
-ini_flag*      = 1               ! flag for initial condition: 0-perfect, 1-imperfect
-                                 ! This option is paired with the model_flag opt
-                                 ! above. Set it 1 if you are not sure how to use
-                                 ! it.
-				 
-rscale**       = 1.0             ! scale of localization
-                                 ! This is Gaussian scale of the localization for the
-                                 ! LEKTF technique. The number denotes the distance 
-                                 ! measured by grid points that localization is performed. 
-				 
-ifactor**      = 1.4             ! inflation factor to increase model error
-                                 ! This is to inflate the analysis covariance matrix
-                                 ! to take into account the model error.
-				 
-nme            = 0               ! number of ensemble member for model error calculation
-                                 ! This is an option for number of ensemble members that 
-                                 ! is used to evaluate the model error by my approach.
-                                 ! Dont change if you dont know to use it.
-				 
-timeout        = 100             ! output interval for the model (steps)
-                                 ! This is redundant option. Dont care about it.
-				 
-tlm_flag       = 1               ! option for the TLM model: 1-first order, 2-second order
-                                 ! This is a reduent option. Dont care about it.
-				 
-no             = 3630            ! number of observation locations = nz*(2*r_obs+1)^2
-                                 ! Ignore this option.
-				 
-ne             = 5               ! number of ensemble members for LETKF
-                                 ! This is the number of ensemble members for the LETKF. 
-                                 ! Its value is set in the main run script.
-				 
-nxl**          = 5               ! size of the local patch in x-y direction
-                                 ! This is the size of local patch measured in grid points.
-                                 ! in horizontal direction
-				 
-nzl**          = 1               ! size of the local patch in z direction
-                                 ! Similar to nxl but for the vertical size of the patch.
-                                 ! So far only tested with nzl=1.
-				 
-slat           = 10.             ! start latitude
-                                 ! Ignore this option
-				 
-nx             = 54              ! grid point in x-direction for mass point
-                                 ! Number of grid points in x direction for the model domain
-                                 ! that is set in the main run script.
-				 
-ny             = 54              ! grid point in y-direction for mass point
-                                 ! Similar to ny but for longitude direction.
-				 
-nz             = 30              ! grid point in z-direction for mass point
-                                 ! Similiar to nx but for the vertical direction
-				 
-tfcst          = 48              ! length of forecast               [h]
-                                 ! Ignore this value
-				 
-dt             = 300.            ! model timestep
-                                 ! Model time step that is set in the main script.
-				 
-obs_flag*      = 1               ! option for obs output: 0:full, 1:vortex
-                                 ! This is an option for the idealized exp with bogused
-                                 ! obs data. For obs_flag=0, the bogussed obs will be
-                                 ! generated over the whole domain with step decided
-                                 ! by r_obs (see below, e.g., for r_obs=2, bogused obs
-                                 ! will be generate at every 2 grid points). For 
-                                 ! obs_flag=1, bogused obs will be generated around
-                                 ! a bogused vortex center that is centered at (icen
-                                 ! jcen) as specified above. In this case, the bogused
-                                 ! obs will be generated at all grid points within a
-                                 ! domain of the size r_obs around the vortex center.
-                                 ! E.g., with r_obs=5, a square domain of size 11x11
-                                 ! around vortex center will be used to create bogused
-                                 ! obs. 
-				 
-oscale         = 700e+03         ! radius of obs influence
-                                 ! ignore this var.
-				 
-da_flag**      = 5               ! 0 (all); 1(no u); 2(no v); 3(no t); 4(no q); 5(no p); 
-                                 ! 12(no u,v); 123(no u,v,t) ...
-				 ! This option is for specifying which variables will be
-                                 ! neglected in the LETKF assimilation. E.g. if da_flag
-                                 ! = 1, then no U-component will be assimilated. For
-                                 ! da_flag=1234, thne U,V,T,Q will not be used.
-				 
-r_obs**        = 5               ! radius around(icen,jcen) where faked obs is created
-                                 ! This controls the size or step of the bogussed 
-                                 ! observation. See obs_flag for more details.
-				 
-para3          = 0               ! extra slot for later new para
-para4          = 0               ! extra slot for later new para
-para5          = 0               ! extra slot for later new para
-para6          = 0               ! extra slot for later new para
-para7          = 0               ! extra slot for later new para
-para8          = 0               ! extra slot for later new para
-para9          = 0               ! extra slot for later new para
-para10         = 0               ! extra slot for later new para
-para11         = 0               ! extra slot for later new para
-para12         = 0               ! extra slot for later new para
-para13         = 0               ! extra slot for later new para
-para14         = 0               ! extra slot for later new para
-para15         = 0               ! extra slot for later new para
-para16         = 0               ! extra slot for later new para
-para17         = 0               ! extra slot for later new para
-para18         = 0               ! extra slot for later new para
-para19         = 0               ! extra slot for later new para
-
-
-CONTACT INFORMATION
-
-Further question or inquiries, please contact: Chanh Kieu, Dept of Meteorology, 
-Hanoi College of Science, Vietnam National University, 334 Nguyen Trai, Thanh Xuan 
-Hanoi, Vietnam 10000. Email: kieucq@atmos.umd.edu.
-
-
-EXAMPLES of HOW TO RUN
-1. run 1 TC forecast cycle with a single domain and CIMSS DA + Bogus vortex
-   with a cold start and an option of blending CIMSS/bogus vortex before doing
-   DA.
-   - save FNL data under ./data/avn, CIMSS data under obs/CIMSS, and tcvital
-     under ./tcvital
-   - go to run and cp ./script/namelist_example1.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1
-
-2. run 1 TC forecast cycle with a single domain and CIMSS DA + Bogus vortex
-   with a cold start and an option of blending CIMSS/bogus vortex before doing
-   DA and DFI to filter initial noise option.
-   - save FNL data under ./data/avn, CIMSS data under obs/CIMSS, and tcvital
-     under ./tcvital
-   - go to run and cp ./script/namelist_example2.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1
-
-3. run 1 TC forecast cycle with a single domain without using any DA, but start from
-   the same cold start option. Note that this CONTROL run has a set up with a single
-   physical option only. Note that the namelist for this exp is the same as exp 2
-   because the CONTROL option is given from the input arguments
-   - save FNL data under ./data/avn, and tcvital under ./tcvital
-   - go to run and cp ./script/namelist_example3.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 201310100000 120 6 COLD CONTROL 24W 1
-
-4. run 1 TC forecast cycle with a single domain and CIMSS DA  with a cold start
-   without an option of bogus vortex and DFI.
-   - save FNL data under ./data/avn, CIMSS data under obs/CIMSS, and tcvital
-     under ./tcvital
-   - go to run and cp ./script/namelist_example4.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1
-
-5. run normal weather forecast with a single domaint and CIMSS DA
-   - save FNL data under ./data/avn, CIMSS data under obs/CIMSS
-   - go to run and cp ./script/namelist_example5.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh
-
-6. run TC forecast with 3 doms and CIMSS DA + Bogus vortex with a cold start and
-   an option of blending CIMSS/bogus vortex before doing DA.
-   - save FNL data under ./data/avn, CIMSS data under obs/CIMSS, and tcvital
-     under ./tcvital
-   - go to run and cp ./script/namelist_example6.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1
-
-7. run TC forecast with 3 doms and blending vortex initialization and radionsondes.
-   - save FNL data under ./data/avn, radionsode data under obs/RADS and creating a file
-     named stationid.txt under the obs/RADS/yyyymmddhhmm, and tcvital
-     under ./tcvital
-   - go to run and cp ./script/namelist_example7.sh ./run/carbonate_namelist.sh
-   - go to run and type: ./carbonate_tc_main.sh 202108261200 120 6 COLD CIMSS 09L 1
-
-
+# LETKF-WRF Ensemble Data Assimilation System
+
+This repository contains an ensemble data assimilation system based on the **Local Ensemble Transform Kalman Filter (LETKF)** algorithm, specifically customized for Weather Research and Forecasting (WRF) model Input/Output (I/O). It was developed as a part of the support for real-time typhoon prediction at the Vietnam Hydro-Meteorological Forecasting Center during 2010-2012 under the support from the Vietnam National University, College of Science (PI: Chanh Kieu). 
+
+---
+
+## 1. System Overview
+
+The system is designed to perform data assimilation for operational weather prediction, tropical cyclone (TC) forecasting, and meteorological research. It integrates with the WRF core components (WRFV3, WPS, WRFDA) to assimilate multiple observation sources:
+* **AMV Winds** (Atmospheric Motion Vectors / GOES winds)
+* **Dropsondes & Radiosondes**
+* **Station Data** (e.g., MADIS)
+* **Bogus Vortex Option** (for TC initialization)
+
+---
+
+## 2. Version History & Changelog
+
+### v3.0 (11 Mar 2012)
+* **TC Initialization:** Added a new vortex initialization component based on standard format TC vital information (`tcvital`).
+* **Enhanced Scheduling:** `tc_runmain.sh` supports multiple scheduler platforms via an external configuration file for better cross-platform control.
+* **LETKF Updates:** Modified the core LETKF algorithm to assimilate geopotential height perturbations and handle inhomogeneous data sources with missing data values (indicated by `-99999` flag).
+
+### v2.2 (31 Mar 2012)
+* Optimized `tc_runmain.sh` to run efficiently under limited computational resources.
+* Automated several steps in the `tc_ensemble` post-processing workflow.
+
+### v2.1.1 (30 Jan 2012)
+* **Automated Plotting:** Upgraded `wrfpost` to automatically generate TC tracking plots and ensemble means, provided an output forecast directory and a bogus `bdeck` file are supplied.
+* **Parallelization:** Implemented the MPI version of LETKF into the main operational pipeline.
+* Added an automated email notification feature triggered upon main program completion.
+
+### v2.1 (11 Aug 2011)
+* Stabilized execution for normal weather, TC forecasting, and research applications.
+* Fixed an idealized experiment bug (ensured pressure perturbation is treated as a diagnostic variable rather than geopotential perturbation).
+* Fixed an issue involving idealized bogused observations.
+* Parallelized LETKF code for accelerated execution with optimized memory usage.
+* Updated typhoon tracking scripts to accept `obsmode` as a flexible input in `tc_namelist`.
+* Revised `rms.f90` to properly handle missing observation cases and fixed a data-reading bug.
+
+### v1.9.8 (19 Jun 2011)
+* Added operational TC track forecasting configuration driven by `tcvital` records.
+* Added a specialized post-processing viewing routine.
+* Integrated `qsub` support for batch queuing environments (SGE / TORQUE).
+* Introduced multiple physics options and updated the `wpost.gs` script.
+
+### v1.9 (20 Aug 2010)
+* Fixed compiler bugs associated with the Intel Fortran Compiler (`ifort`).
+* Enabled ensemble boundary updates utilizing the WRFDA `update_wrfda_bc` utility.
+* Supported arbitrary vertical observation points (enabling MADIS and GOES wind profiles).
+* Introduced a **REAL-TIME** execution workflow featuring a master script for automated GFS data retrieval and real-time figure generation in `wrfpost`.
+
+### v1.6 (05 Aug 2010)
+* Implemented quality control (QC) checks for every individual observation variable at every location.
+* Configured the iterative input `wrfinput_d01` for idealized runs to utilize the ensemble mean rather than pulling directly from the background, preventing ensemble divergence.
+* Allowed arbitrary observation locations instead of forcing them onto the grid mesh.
+* Integrated WRFDA `OBSPROC` to manage data quality control prior to assimilation. 
+* *Note: Compiling WRFDA is mandatory starting from this version to run in Real mode.*
+
+---
+
+## 3. Code & Directory Structure
+
+```text
+├── ini/       # Cold start initialization inputs for the ensemble
+├── truth/     # Contains the benchmark "truth" run generated by integrating the base model over time
+├── obs/       # Data generated by obs.exe (reads the truth and adds white noise to simulate real observations)
+├── model/     # Base WRF system components: WRF-DA, WPS, and WRF core
+├── letkf/     # Core data assimilation source code executing the LETKF algorithm
+├── ana/       # Output analysis files from the assimilation process
+├── fsc/       # Cyclic forecast outputs
+├── ctl/       # Base control run without data assimilation (used for baseline verification)
+├── bgd/       # Background backups archived after each assimilation cycle
+├── utils/     # Utility routines for handling intermediate data processing steps
+├── wrfpost/   # WRF Post-Processor (V2.1) for generating quick plots of model output
+├── dig/       # Shared directory for diagnostic calculations and system performance metrics
+└── data/      # Storage directory for raw WRF inputs and observation datasets
+```
+---
+
+## 4. Compilation & Execution
+
+### Step 1: Compilation
+- Configure your environment settings inside ./letkf/configure.letkf.
+- Execute the installer script install.sh inside each directory.
+- Ensure that the core model components (WRFV3, WPS, and WRFDA) located within the model/ directory are fully compiled.
+
+### Step 2: Configuration
+All configuration variables are managed centrally:
+- CRITICAL: Do not modify namelist.letkf directly in the root or local directories. It is automatically overwritten during execution. All parameters must be adjusted inside the main run script: ./run/runmain.sh.
+- Ensure you link all scripts from your script repository to your active run directory.
+
+### Step 3: Run
+Execute the primary workflow controller script: `./runmain.sh`
+Monitor execution logs generated dynamically within the ./run folder to track progress and identify errors.
+
+### Step 4: Diagnostics & Visualization
+Navigate to the dig/ directory to evaluate metrics, or link your run outputs to wrfpost to visualize fields and track plots.
+
+## 5. Development Debugging Guidelines
+If you encounter issues or are setting up a new experiment configuration, follow these sequential testing phases:
+
+- Verify Base Truth: Navigate to `truth/`, run `./runtruth.sh`, and plot results to confirm physical realism.
+- Verify Observations: Navigate to `obs/`, run `./obs.exe`, and inspect the generated observations.
+- Verify Initialization: Go to `ini/`, run `./ini.exe`, and ensure ensemble perturbations are sound.
+- Run Control Forecast: Run a baseline simulation inside ctl/ without assimilation.
+- Test Single Cycle DA: Go to `letkf/`, run `./letkf.exe` manually, and analyze a single assimilation cycle.
+- Full Execution: Once all atomic steps pass validation, navigate to the main directory and launch `./run.s`h.
+
+## 6. Namelist Configuration Reference 
+
+Variables below in the `namelist.letkf` are marked with asterisks (`*`) indicating their importance and tuning priority.
+
+| Parameter | Default Value | Description / Usage |
+| :--- | :--- | :--- |
+| `debug` | `0` | Debugging verbosity level. |
+| `restart` | `180` | Output frequency for the WRF run [minutes]. Defined in the main run script. |
+| `dy` | `81000` | Grid distance in the y-direction [meters]. Defined in the main script. |
+| `zamp*` | `36` | Non-dimensional amplitude of the v-anomaly [m] for an idealized vortex used in cold-start initializations. Cross-verify against `truth/bvortex.ctl`. |
+| `zscale*` | `5e+4` | Horizontal scale of the idealized vortex [meters]. |
+| `icen*` | `30` | i-center grid coordinate of the idealized vortex anomaly. Must be `< nx`. |
+| `jcen*` | `18` | j-center grid coordinate (latitudinal) of the idealized vortex anomaly. |
+| `obs_err_u**` | `1.2` | Observation error for zonal wind u [m/s] for faked/idealized observations. Highly sensitive; tune with care. For real-time runs, values are automatically extracted from `obsproc.exe`. |
+| `obs_err_v**` | `1.2` | Observation error for meridional wind v [m/s]. |
+| `obs_err_t**` | `1.2` | Observation error magnitude for temperature [K]. |
+| `obs_err_q**` | `1e-3` | Observation error for water vapor mixing ratio [kg/kg]. |
+| `obs_err_p**` | `1.0` | Observation error for geopotential height perturbation [m^2 s^-2]. |
+| `bgd_err_u**` | `2.5` | Background error for zonal wind u during cold start. Crucial for tuning idealized experiments. |
+| `bgd_err_v**` | `2.5` | Background error for meridional wind v during cold start. |
+| `bgd_err_t**` | `2.5` | Background error for temperature T during cold start [K]. |
+| `bgd_err_q**` | `3e-3` | Background error for specific humidity q during cold start [kg/kg]. |
+| `bgd_err_p**` | `2.0` | Background error for geopotential height perturbation during cold start [m^2 s^-2]. |
+| `model_flag*` | `0` | Model error flag: `0` = Perfect Model, `1` = Imperfect Model (handles errors via covariance inflation or customized schemes). |
+| `ini_flag*` | `1` | Initial condition flag: `0` = Perfect, `1` = Imperfect. Paired with `model_flag`. |
+| `rscale**` | `1.0` | Localization scale factor. Gaussian scale representing grid-point distance cutoff for the LETKF technique. |
+| `ifactor**` | `1.4` | Covariance inflation factor used to expand the analysis covariance matrix to account for model error. |
+| `nme` | `0` | Number of ensemble members dedicated to explicit model error evaluation. Leave as `0` unless implementing custom schemes. |
+| `ne` | `5` | Total number of ensemble members for the LETKF filter. Set via the main script. |
+| `nxl**` | `5` | Size of the local horizontal patch measured in grid points (x-y direction). |
+| `nzl**` | `1` | Size of the local vertical patch measured in grid layers (z direction). *Note: Currently only tested with value 1.* |
+| `nx`, `ny`, `nz` | `54, 54, 30` | Number of mass-point grid points in the X, Y, and Z domains respectively. Configured via the main workflow. |
+| `dt` | `300.` | Model time step [seconds]. |
+| `obs_flag*` | `1` | Idealized observation generation mode: `0` = Full domain uniform distribution with spacing step defined by `r_obs`; `1` = Vortex-centric distribution matching a square window defined by `r_obs` around (`icen`, `jcen`). |
+| `da_flag**` | `5` | Omission mask for data assimilation: `0` = Assimilate all; `1` = Skip U; `2` = Skip V; `3` = Skip T; `4` = Skip Q; `5` = Skip P; `12` = Skip U,V; `123` = Skip U,V,T. |
+| `r_obs**` | `5` | Radius factor controlling the window size or spatial step interval of the faked/bogussed observations. |
+
+## 7. Operational Execution Examples
+### Example 1: Single Domain TC Forecast Cycle with CIMSS DA + Bogus Vortex
+- Setup: Cold start initialization, blending CIMSS and bogus vortex observations prior to DA.
+- Data Prep: Save FNL data under ./data/avn, CIMSS observations under obs/CIMSS, and TC Vitals records under ./tcvital.
+- run: cd run
+  + `cp ../script/namelist_example1.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1`
+
+### Example 2: Single Domain TC Cycle with DFI Noise Filtering
+- Setup: Adds a Digital Filter Initialization (DFI) option to filter out early high-frequency noise from the initial state.
+- run: cd run
+  + `cp ../script/namelist_example2.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1`
+
+### Example 3: Baseline Control Run (No Assimilation)
+- Setup: Starts from an identical cold-start initial state but bypasses the LETKF filter entirely using a single physics option suite.
+- cd run
+  + `cp ../script/namelist_example3.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 201310100000 120 6 COLD CONTROL 24W 1`
+
+### Example 4: Single Domain TC Cycle with CIMSS Data Only (No Vortex Bogusing)
+- Setup: Disables vortex bogusing and DFI, assimilating purely physical CIMSS observations.
+- cd run
+  + `cp ../script/namelist_example4.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1`
+
+### Example 5: Standard Non-TC Weather Forecast (Single Domain + CIMSS)
+- cd run
+  + `cp ../script/namelist_example5.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh`
+
+### Example 6: 3-Domain Multi-Nest TC Forecast (CIMSS + Bogus Vortex)
+- cd run
+  + `cp ../script/namelist_example6.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 201310100000 120 6 COLD CIMSS 24W 1`
+
+### Example 7: 3-Domain Multi-Nest TC Forecast (Vortex Initialization + Radiosondes)
+- Data Prep: Radiosonde data must be archived under obs/RADS, with a valid stationid.txt index file located under obs/RADS/202108261200.
+- cd run
+  + `cp ../script/namelist_example7.sh ./carbonate_namelist.sh`
+  + `./carbonate_tc_main.sh 202108261200 120 6 COLD CIMSS 09L 1`
+
+## 8. Maintainer & Contact Info
+For bug reports, feature requests, or collaboration inquiries, please reach out to:
+
+- Chanh Kieu, Department of Meteorology, Hanoi College of Science, Vietnam National University
+- Address: 334 Nguyen Trai, Thanh Xuan, Hanoi, Vietnam 10000
+- Email: kieucq@gmail.com
+
+## 9. References
+- Tran, T. T., T. Cong, H. Dao, C. Kieu, 2020: Assessing the Impacts of Augmented Observations on the Forecast of Typhoon Wutip (2013)'s Formation using the Ensemble Kalman Filter. Wea. and Forecasting. doi: 10.1175/WAF-D-20-0001.1
+- Du, T. D., T. Ngo-Duc, C. Kieu, 2017: Initializing the WRF Model with Tropical Cyclone Real-Time Reports using the Ensemble Kalman Filter Algorithm. Pure and Applied Geophysics, 174, 2803-2825.
+- Kieu, C. Q., M.T. Pham, M.T. Hoang, 2013: Application of the Multi-physics Ensemble Kalman Filter to Typhoon Forecast. Pure and Applied Geophysics. 171, 1473-1497. doi: 10.1007/s00024-013-0681-y. 
+- Du, T. D., T. Ngo-Duc, M. T. Hoang, and C. Q. Kieu, 2013: A Study of Connection between Tropical Cyclone Track and Intensity Errors in the WRF Model. Meteo. Atmos. Phys., 122, 55-64. doi: 10.1007/s00703-013-0278-0.
+- Kieu, C. Q., T. M. Nguyen, M. T. Hoang, T. Ngo-Duc, 2012: Sensitivity of the Track and Intensity Forecasts of Typhoon Megi (2010) to Satellite-Derived Atmospheric Motion Vectors with the Ensemble Kalman Filter, J. Atmos. and Oceanic Tech., 29, 1794-1810. doi: 10.1175/JTECH-D-12-00020.1. 
+- Kieu, C. Q., 2011: Development of a real-time regional ensemble assimilation weather prediction system for Vietnam. VNU Journal of Science, 1S, 17-28.
+- Kieu, C. Q., 2010: Adaptive estimation of model error in Kalman filter by perturbed forcing. VNU Journal of Science, 3S, 310-316.
